@@ -14,7 +14,7 @@ import { lightBlue } from "@mui/material/colors";
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+export default function Recovery() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -37,7 +37,7 @@ export default function Login() {
         >
           <Avatar sx={{ m: 1, bgcolor: lightBlue[500] }} src={img} />
           <Typography component="h1" variant="h5">
-            Inicia Sesión
+            Recupera tu contraseña
           </Typography>
           <Box
             component="form"
@@ -55,28 +55,18 @@ export default function Login() {
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Iniciar Sesión
+              Enviar correo de recuperación
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to={"/recovery"} variant="body2">
-                  Olvidé mi contraseña
+                <Link to={"/"} variant="body2">
+                  Iniciar Sesion
                 </Link>
               </Grid>
               <Grid item>
