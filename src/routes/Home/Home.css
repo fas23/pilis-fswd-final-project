@@ -1,0 +1,14 @@
+.carusel img{
+    width: 800px;
+    height: 630px;
+}
+.home{
+    display: flex;
+}
+.next{
+    padding: 20px;
+}
+.list{
+    display: flex;
+    flex-direction: column;
+}
