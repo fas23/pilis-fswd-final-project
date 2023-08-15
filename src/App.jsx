@@ -6,8 +6,6 @@ import './App.css'
 import Home from './routes/Home/Home';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div className='App'>
           {<Routes>
@@ -20,4 +18,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
