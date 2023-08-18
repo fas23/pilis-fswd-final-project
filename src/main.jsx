@@ -1,9 +1,7 @@
-import {createRoot} from 'react-dom/client';
-import App from './App';
-import {BrowserRouter as Router} from 'react-router-dom';
-
-const rootElement = document.getElementById('root');
-const root = createRoot(rootElement);
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx';
+import { UserProvider } from './context/UserContext';
 
 // 👇️ wrap App in Router
 import "@fontsource/roboto/300.css";
@@ -15,22 +13,12 @@ import { CssBaseline } from "@mui/material";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <CssBaseline />
-    <App />
+    <CssBaseline/>
+    <UserProvider>
+      <App />
+    </UserProvider>
   </React.StrictMode>
 );
-/* import React from 'react'
-root.render(
-  <Router>
-    <App />
-  </Router>
-);
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-*/
+
 
 

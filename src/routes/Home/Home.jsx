@@ -1,117 +1,38 @@
 import React, { Component } from 'react';
 import './Home.css'
+import Carrusel from '../../components/Carousel/Carousel';
 import Trailers from '../../components/Trailers/Trailers';
 import Listings from '../../components/Listings/Listings';
-import {
-  Carousel,
-  CarouselItem,
-  CarouselControl,
-  CarouselIndicators,
-  CarouselCaption
-} from 'reactstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-const items = [
-  {
-    src: 'https://th.bing.com/th/id/OIP.MegsP9H-NNgTiv9WkQQiIQHaJ4?pid=ImgDet&w=899&h=1200&rs=1',
-    altText: 'Slide 1',
-    caption: 'Slide 1'
-  },
-  {
-    src: 'https://images.bonanzastatic.com/afu/images/ab36/5c65/7059_11974648131/__57.jpg',
-    altText: 'Slide 2',
-    caption: 'Slide 2'
-  },
-  {
-    src:'https://th.bing.com/th/id/OIP.4V0ocXh4Iwx1B6Nbi4JGYAHaEL?pid=ImgDet&rs=1',
-    altText: 'Slide 3',
-    caption: 'Slide 3'
-  }
-];
+import Filter from '../../components/Filter/Filter'
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { activeIndex: 0 };
-    this.next = this.next.bind(this);
-    this.previous = this.previous.bind(this);
-    this.goToIndex = this.goToIndex.bind(this);
-    this.onExiting = this.onExiting.bind(this);
-    this.onExited = this.onExited.bind(this);
-  }
+const Home = () => {
+  
 
-  onExiting() {
-    this.animating = true;
-  }
-
-  onExited() {
-    this.animating = false;
-  }
-
-  next() {
-    if (this.animating) return;
-    const nextIndex = this.state.activeIndex === items.length - 1 ? 0 : this.state.activeIndex + 1;
-    this.setState({ activeIndex: nextIndex });
-  }
-
-  previous() {
-    if (this.animating) return;
-    const nextIndex = this.state.activeIndex === 0 ? items.length - 1 : this.state.activeIndex - 1;
-    this.setState({ activeIndex: nextIndex });
-  }
-
-  goToIndex(newIndex) {
-    if (this.animating) return;
-    this.setState({ activeIndex: newIndex });
-  }
-
-  render() {
-    const { activeIndex } = this.state;
-
-    const slides = items.map((item) => {
-      return (
-        <CarouselItem
-          onExiting={this.onExiting}
-          onExited={this.onExited}
-          key={item.src}
-        >
-          <div className='carusel'>
-
-            <img src={item.src} alt={item.altText} />
+  return (
+    <>
+      <div className='main-container'>
+        <div className='container'>
+          
+          <div>
+            <Carrusel/>
           </div>
-          <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
-        </CarouselItem>
-      );
-    });
 
-    return (
-      <>
-      <div className='home'>
-      <div className='carrucel'>
-      <Carousel
-        activeIndex={activeIndex}
-        next={this.next}
-        previous={this.previous}
-      >
-        <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-        {slides}
-        <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
-        <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-      </Carousel>
-
+          <div className='next'>
+            <h2>Próximamente</h2>
+            <Trailers/>
+          </div>
+        </div>
+         <h2>En cartelera</h2>
+        <div className='filter'>
+          <Filter/>
+        </div>
+        
+        <div className='list'>
+          <Listings/>
+        </div>
       </div>
-      <div className='next'>
-        <h2>Próximamente</h2>
-        <Trailers/>
-      </div>
-      </div>
-      <div className='list'>
-        <h2>En cartelera</h2>
-        <Listings/>
-      </div>
-      </>
-    );
-  }
-}
-
+    </>
+  );
+};
 
 export default Home;
