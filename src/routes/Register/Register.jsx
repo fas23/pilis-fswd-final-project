@@ -1,28 +1,26 @@
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import img from "../../assets/img/palomitas.png";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { lightBlue } from "@mui/material/colors";
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+import { Link } from 'react-router-dom'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import img from '../../assets/img/palomitas.png'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { createTheme } from '@mui/material/styles'
+import { lightBlue } from '@mui/material/colors'
 
-// TODO remove, this demo shouldn't need to reset the theme.
+const defaultTheme = createTheme()
 
-const defaultTheme = createTheme();
-
-export default function Register() {
+export default function Register () {
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
     console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+      email: data.get('email'),
+      password: data.get('password')
+    })
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -30,9 +28,9 @@ export default function Register() {
         <Box
           sx={{
             marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: lightBlue[500] }} src={img} />
@@ -87,5 +85,5 @@ export default function Register() {
         </Box>
       </Container>
     </ThemeProvider>
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./routes/Login/Login";
-import Register from "./routes/Register/Register";
-import Recovery from "./routes/Recovery/Recovery";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Login from './routes/Login/Login'
+import Register from './routes/Register/Register'
+import Recovery from './routes/Recovery/Recovery'
 
-function App() {
+function App () {
   return (
     <BrowserRouter>
       <Routes>
@@ -12,7 +12,7 @@ function App() {
         <Route path="/recovery" element={<Recovery />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
