@@ -1,0 +1,8 @@
+.listing img{
+    width: 300px;
+}
+.listing{
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+}

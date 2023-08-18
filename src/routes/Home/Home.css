@@ -1,0 +1,16 @@
+.main-container h2{
+    text-align: center;
+}
+.container{
+    display: flex;
+    margin: 20px;
+    padding: 20px;
+}
+.next{
+    padding: 20px;
+}
+.filter{
+    display: flex;
+    justify-content: center;
+
+}
