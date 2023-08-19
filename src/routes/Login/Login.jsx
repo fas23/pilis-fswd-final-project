@@ -26,7 +26,7 @@ export default function Login () {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component='main' maxWidth='xs'>
         <Box
           sx={{
             marginTop: 8,
@@ -36,52 +36,52 @@ export default function Login () {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: lightBlue[500] }} src={img} />
-          <Typography component="h1" variant="h5">
+          <Typography component='h1' variant='h5'>
             Inicia Sesión
           </Typography>
           <Box
-            component="form"
+            component='form'
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
             <TextField
-              margin="normal"
+              margin='normal'
               required
               fullWidth
-              id="email"
-              label="Correo Electrónico"
-              name="email"
-              autoComplete="email"
+              id='email'
+              label='Correo Electrónico'
+              name='email'
+              autoComplete='email'
               autoFocus
             />
             <TextField
-              margin="normal"
+              margin='normal'
               required
               fullWidth
-              name="password"
-              label="Contraseña"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+              name='password'
+              label='Contraseña'
+              type='password'
+              id='password'
+              autoComplete='current-password'
             />
             <Button
-              type="submit"
+              type='submit'
               fullWidth
-              variant="contained"
+              variant='contained'
               sx={{ mt: 3, mb: 2 }}
             >
               Iniciar Sesión
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link to={'/recovery'} variant="body2">
+                <Link to='/recovery' variant='body2'>
                   Olvidé mi contraseña
                 </Link>
               </Grid>
               <Grid item>
-                <Link to={'/register'} variant="body2">
-                  {'No tienes cuenta? Registrate'}
+                <Link to='/register' variant='body2'>
+                  No tienes cuenta? Registrate
                 </Link>
               </Grid>
             </Grid>
