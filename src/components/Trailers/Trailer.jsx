@@ -1,46 +1,48 @@
 import React from "react";
 import Box from '@mui/joy/Box';
-import List from '@mui/joy/List';
-import ListItem from '@mui/joy/ListItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Typography from '@mui/joy/Typography';
-import ListItemContent from '@mui/joy/ListItemContent';
 import IconButton from '@mui/joy/IconButton';
-import './Trailer.css' 
+import Link from '@mui/joy/Link';
+import Stack from '@mui/joy/Stack';
+import './Trailer.css';
+import { styled } from '@mui/joy/styles';
+import Sheet from '@mui/joy/Sheet';
+import Divider from '@mui/joy/Divider';
+import play from '../../assets/icons/play.svg'
 
+const Item = styled(Sheet)(({ theme }) => ({
+  backgroundColor:
+    theme.palette.mode === 'dark' ? theme.palette.background.level1 : '#fff',
+  ...theme.typography['body-sm'],
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  borderRadius: 4,
+  color: theme.vars.palette.text.secondary,
+}));
 
 const Trailer=(props)=>{
     return(
-        <div className="trailer">
-          <Box sx={{ width: 320 }}>
-      <List
-        aria-labelledby="ellipsis-list-demo"
-        sx={{ '--ListItemDecorator-size': '56px' }}
+      <div className="trailer">
+         <Box sx={{ width: '100%' }}>
+      <Stack
+        direction="row"
+        divider={<Divider orientation="vertical" />}
+        spacing={2}
+        justifyContent="center"
       >
-        <ListItem >
- 
-          <ListItemDecorator>
-             <AspectRatio minHeight="220px" maxHeight="300px">
-                <img src={props.img} srcSet={props.img} loading="lazy" alt=""/>          
-              </AspectRatio>
-          </ListItemDecorator> 
-          <ListItemContent>
-          <IconButton variant="plain">
- 
-</IconButton>
-            <Typography level="title-md">{props.name}</Typography>
-            <Typography level="body-sm">{props.description}.</Typography>
-          </ListItemContent>
-          
-        </ListItem>
-      </List>
+        <Item>
+        <img src={props.img} srcSet={props.img} loading="lazy" alt="" style={{width:'100px', height:'150px', borderRadius:'5px'}}/>
+        </Item>
+        <Item>
+          <h5>{props.name}</h5>
+          {props.description}
+          <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+            <IconButton variant="plain">
+            <Link href={props.link} ><img src={play} alt="" style={{width:'30px'}}/></Link>
+            </IconButton>
+         </Box>
+        </Item>
+      </Stack>
     </Box>
-            
-            {/* <YouTube videoId={props.link}/> */}
-            {/* <a href={props.link}></a> */}
-            {/* <video src={props.link}></video> 
-            <iframe src={props.link} ></iframe>*/}
      </div>
     );
 }

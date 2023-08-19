@@ -11,14 +11,14 @@ const Home = () => {
   return (
     <>
       <div className='main-container'>
-        <div className='container'>
+        <div className='containerp'>
           
-          <div>
+          <div className='carrusel'>
             <Carrusel/>
           </div>
 
           <div className='next'>
-            <h2>Próximamente</h2>
+            <h2>Próximos estrenos</h2>
             <Trailers/>
           </div>
         </div>
