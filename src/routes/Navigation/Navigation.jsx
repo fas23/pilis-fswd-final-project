@@ -9,7 +9,7 @@ const Navigation = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext)
 
   useEffect(() => {
-    const userStored = localStorage.getItem('currentUser')
+    const userStored = window.localStorage.getItem('currentUser')
     console.log({ userStored })
     if (userStored) {
       setCurrentUser(JSON.parse(userStored))
@@ -18,6 +18,7 @@ const Navigation = () => {
 
   const handleSignOut = () => {
     setCurrentUser(null)
+    window.localStorage.removeItem('currentUser')
   }
 
   return (
