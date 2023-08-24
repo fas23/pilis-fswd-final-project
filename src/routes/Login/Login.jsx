@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Box, Button, Container, IconButton, InputAdornment, Stack, Typography } from '@mui/material'
+import { Alert, Box, Button, Container, IconButton, InputAdornment, Snackbar, Stack, Typography } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import * as yup from 'yup'
 import { ControlledInput } from '../../components/ControlledInput'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { login } from '../../services/login'
 
 const loginSchema = yup.object({
   email: yup.string()
@@ -23,6 +24,13 @@ const loginSchema = yup.object({
 export function Login () {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [alert, setAlert] = useState(null)
+
+  const navigate = useNavigate()
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
+  }
 
   const handleClickShowPassword = () => setShowPassword(show => !show)
 
@@ -39,7 +47,37 @@ export function Login () {
     mode: 'onChange'
   })
 
-  const onSubmit = data => console.log(data)
+  const onSubmit = data => {
+    // console.log({ data })
+    setIsLoading(true)
+    login(data)
+      .then((data) => {
+        // setToken(data.token)
+        // setCurrentUser({ email: data.user.email, name: data.user.name })
+        // navigate(URLS.WORKERS)
+        console.log({ data })
+        navigate('/', { state: { message: 'jelouda' } })
+      })
+      .catch(error => {
+        console.log({ error })
+        if (error.response.status === 401) {
+          setAlert({
+            open: true,
+            type: 'error',
+            message: 'Contraseña o usuario incorrecto.'
+          })
+        } else {
+          setAlert({
+            open: true,
+            type: 'error',
+            message: 'Ups, hubo un error, intente de nuevo.'
+          })
+        }
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
 
   return (
     <Container
@@ -132,7 +170,15 @@ export function Login () {
             Regístrate
           </Button>
         </Stack>
-
+        <Snackbar open={alert?.open}>
+          <Alert
+            onClose={handleCloseAlert}
+            severity={alert?.type}
+            sx={{ width: '100%' }}
+          >
+            {alert?.message}
+          </Alert>
+        </Snackbar>
       </Box>
     </Container>
   )

@@ -4,8 +4,12 @@ import Trailers from '../../components/Trailers/Trailers'
 import Listings from '../../components/Listings/Listings'
 import Filter from '../../components/Filter/Filter'
 import { Carousel } from '../../components/Carousel'
+import { useLocation } from 'react-router-dom'
 
 const Home = () => {
+  const location = useLocation()
+  const { message } = location.state
+  console.log({ message })
   return (
 
     <Box
