@@ -1,0 +1,5 @@
+export * from './BankNotesIcon'
+export * from './BarsIcon'
+export * from './CartIcon'
+export * from './ClockIcon'
+export * from './TicketIcon'

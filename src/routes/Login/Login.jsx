@@ -1,143 +1,139 @@
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import { Link, useNavigate } from 'react-router-dom'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-// import img from '../../assets/img/palomitas.png'
-// import { lightBlue } from '@mui/material/colors'
-import loginService from '../../services/login'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Alert } from '@mui/material'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Box, Button, Container, IconButton, InputAdornment, Stack, Typography } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import * as yup from 'yup'
+import { ControlledInput } from '../../components/ControlledInput'
+import { Link } from 'react-router-dom'
 
-const defaultTheme = createTheme()
+const loginSchema = yup.object({
+  email: yup.string()
+    .email('El correo electrónico no es válido')
+    .required('El correo electrónico es obligatorio')
+    .max(255, 'El correo electrónico no debe tener más de 255 caracteres')
+    .matches(
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      'El correo electrónico no es válido'
+    ),
+  password: yup.string()
+    .required('La contraseña es obligatoria')
+}).required()
 
-export default function Login () {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errMsg, setErrMsg] = useState('')
-  const navigate = useNavigate()
+export function Login () {
+  const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit
-  } = useForm()
+  const handleClickShowPassword = () => setShowPassword(show => !show)
 
-  const onSubmit = async (data) => {
-    try {
-      setEmail(data.email)
-      setPassword(data.password)
-      console.log(data)
-      const user = await loginService.login({
-        email,
-        password
-      })
-      console.log(user)
-      // const { email } = user
-      window.localStorage.setItem('currentUser', JSON.stringify(user.user.email))
-      navigate('/')
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg('No Server Response')
-      } else if (err.response?.status === 400) {
-        setErrMsg('Usuario o Contraseña incorrectos')
-      } else if (err.response?.status === 401) {
-        setErrMsg('Sin Autorización')
-      } else {
-        setErrMsg('Login Failed')
-      }
-      console.log(err)
-    }
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
   }
 
-  // const onSubmit = (data) => console.log(data)
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component='main' maxWidth='xs'>
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
-            Inicia Sesión
-          </Typography>
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    },
+    mode: 'onChange'
+  })
 
-          {errMsg && <Alert severity='error' onClose={() => {}}>{errMsg}</Alert>}
-          <Box
-            component='form'
-            onSubmit={handleSubmit(onSubmit)}
-            sx={{ mt: 1 }}
+  const onSubmit = data => console.log(data)
+
+  return (
+    <Container
+      sx={{
+        height: '70vh',
+        display: 'flex',
+        alignItems: 'center'
+      }}
+    >
+      <Box
+        component='form'
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+          padding: '1rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          mx: 'auto',
+          width: { xs: '90%', sm: '50%', lg: '40%' }
+        }}
+      >
+        <Typography
+          component='h1'
+          variant='h1'
+          sx={{ fontWeight: 'bold', mb: '2rem', textAlign: 'center', fontSize: '40px' }}
+        >
+          Inicia sesión
+        </Typography>
+
+        <ControlledInput
+          control={control}
+          label='Correo electrónico'
+          name='email'
+          sx={{ mb: '1rem' }}
+        />
+
+        <ControlledInput
+          control={control}
+          label='Contraseña'
+          name='password'
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge='end'
+                  type='button'
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+          sx={{ mb: '1rem' }}
+        />
+        <Button
+          variant='contained'
+          size='large'
+          type='submit'
+          disabled={isLoading}
+          sx={{ textTransform: 'initial', width: '100%', mb: '1rem', fontSize: '1.1rem' }}
+        >
+          {isLoading ? 'Cargando...' : 'Iniciar sesión'}
+        </Button>
+
+        <Button
+          variant='text' size='large' type='button'
+          sx={{ textDecoration: 'underline', textTransform: 'initial', mx: 'auto', fontSize: '1rem' }}
+          component={Link}
+          disabled={isLoading}
+          to='/recover-password'
+        >
+          Olvidé mi contraseña
+        </Button>
+
+        <Stack direction='row' alignItems='center' sx={{ mx: 'auto' }}>
+          <Typography>
+            ¿No tienes una cuenta?
+          </Typography>
+          <Button
+            variant='text' size='large' type='button'
+            sx={{ textTransform: 'initial', fontWeight: '700', fontSize: '1rem' }}
+            component={Link}
+            disabled={isLoading}
+            to='/recover-password'
           >
-            <TextField
-              margin='normal'
-              // error={!!emailError}
-              fullWidth
-              id='email'
-              label='Correo Electrónico'
-              name='email'
-              autoComplete='email'
-              autoFocus
-              // helperText={emailError}
-              {...register('email', {
-                required: 'El correo electrónico es requerido',
-                pattern: {
-                  value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  message: 'Por favor ingrese un correo válido'
-                }
-              })}
-              aria-invalid={errors.email ? 'true' : 'false'}
-            />
-            {errors.email && <p role='alert' style={{ color: 'red' }}>{errors.email.message}</p>}
-            <TextField
-              margin='normal'
-              // error={!!passwordError}
-              fullWidth
-              name='password'
-              label='Contraseña'
-              type='password'
-              id='password'
-              autoComplete='current-password'
-              // helperText={passwordError}
-              {...register('password', { required: 'La contraseña es requerida' })}
-              aria-invalid={errors.password ? 'true' : 'false'}
-            />
-            {errors.password && <p role='alert' style={{ color: 'red' }}>{errors.password.message}</p>}
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Iniciar Sesión
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to='/recovery' variant='body2'>
-                  Olvidé mi contraseña
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to='/register' variant='body2'>
-                  No tienes cuenta? Registrate
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+            Regístrate
+          </Button>
+        </Stack>
+
+      </Box>
+    </Container>
   )
 }

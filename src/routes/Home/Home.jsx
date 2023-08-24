@@ -1,38 +1,42 @@
-import React, { Component } from 'react';
-import './Home.css'
-import Carrusel from '../../components/Carousel/Carousel';
-import Trailers from '../../components/Trailers/Trailers';
-import Listings from '../../components/Listings/Listings';
+// import Carrusel from '../../components/Carousel/Carousel2'
+import { Box } from '@mui/material'
+import Trailers from '../../components/Trailers/Trailers'
+import Listings from '../../components/Listings/Listings'
 import Filter from '../../components/Filter/Filter'
+import { Carousel } from '../../components/Carousel'
 
 const Home = () => {
-  
-
   return (
-    <>
-      <div className='main-container'>
-        <div className='containerp'>
-          
-          <div className='carrusel'>
-            <Carrusel/>
-          </div>
 
-          <div className='next'>
+    <Box
+      component='div'
+      sx={{
+        width: '95%',
+        mx: 'auto'
+      }}
+    >
+      {/* <div className='containerp'> */}
+
+      {/* <div className='carrusel'> */}
+      <Carousel />
+      {/* </div> */}
+
+      {/* <div className='next'>
             <h2>Próximos estrenos</h2>
-            <Trailers/>
+            <Trailers />
           </div>
-        </div>
-         <h2>En cartelera</h2>
-        <div className='filter'>
-          <Filter/>
-        </div>
-        
-        <div className='list'>
-          <Listings/>
-        </div>
+        </div> */}
+      <h2>En cartelera</h2>
+      <div className='filter'>
+        <Filter />
       </div>
-    </>
-  );
-};
 
-export default Home;
+      {/* <div className='list'>
+      </div> */}
+      <Listings />
+    </Box>
+
+  )
+}
+
+export default Home
