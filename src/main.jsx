@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import { UserProvider } from './context/UserContext'
+import { MovieProvider } from './context/MovieContext'
 
 // 👇️ wrap App in Router
 import '@fontsource/roboto/300.css'
@@ -15,7 +16,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <CssBaseline />
     <UserProvider>
+      <MovieProvider>
+
       <App />
+      </MovieProvider>
     </UserProvider>
   </React.StrictMode>
 )

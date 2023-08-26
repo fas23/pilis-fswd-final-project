@@ -1,15 +1,16 @@
 // import Carrusel from '../../components/Carousel/Carousel2'
-import { Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import Trailers from '../../components/Trailers/Trailers'
 import Listings from '../../components/Listings/Listings'
 import Filter from '../../components/Filter/Filter'
 import { Carousel } from '../../components/Carousel'
-import { useLocation } from 'react-router-dom'
+import Sheet from '@mui/joy/Sheet';
+/* import { useLocation } from 'react-router-dom' */
 
 const Home = () => {
-  const location = useLocation()
-  const { message } = location.state
-  console.log({ message })
+  /* const location = useLocation() */
+  /* const { message } = location.state */
+ /*  console.log({ message }) */
   return (
 
     <Box
@@ -19,24 +20,29 @@ const Home = () => {
         mx: 'auto'
       }}
     >
-      {/* <div className='containerp'> */}
-
-      {/* <div className='carrusel'> */}
-      <Carousel />
+      
+      <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+        <Grid item xs={8}>
+        <Carousel />
+        </Grid>
+        <Grid item xs={4}>
+        {/* <Trailers /> */}
+        </Grid>
+      </Grid>
       {/* </div> */}
-
+      
       {/* <div className='next'>
             <h2>Próximos estrenos</h2>
             <Trailers />
           </div>
         </div> */}
-      <h2>En cartelera</h2>
+      <Sheet color="neutral" sx={{ p: 1, textAlign:'center' }}>
+        <h2>En cartelera</h2>
+      </Sheet>
       <div className='filter'>
         <Filter />
       </div>
-
-      {/* <div className='list'>
-      </div> */}
+      
       <Listings />
     </Box>
 

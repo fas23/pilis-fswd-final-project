@@ -6,6 +6,7 @@ import Recovery from './routes/Recovery/Recovery'
 import Home from './routes/Home/Home'
 import { Login } from './routes/Login/Login'
 import { Navigation } from './routes/Navigation/Navigation'
+import  Movie  from './routes/Movie/Movie'
 
 function App () {
   return (
@@ -16,6 +17,7 @@ function App () {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/recovery' element={<Recovery />} />
+          <Route path='listing/:id' element={<Movie/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
