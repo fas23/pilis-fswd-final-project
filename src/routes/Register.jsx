@@ -17,7 +17,9 @@ const registerSchema = yup.object({
       'El correo electrónico no es válido'
     ),
   password: yup.string()
-    .required('La contraseña es obligatoria')
+    .required('La contraseña es obligatoria'),
+  username: yup.string()
+    .required('El nombre de usuario es requerido')
 }).required()
 
 const Register = () => {
@@ -55,11 +57,11 @@ const Register = () => {
       })
       .catch(error => {
         console.log({ error })
-        if (error.response.status === 401) {
+        if (error.response.status === 403) {
           setAlert({
             open: true,
             type: 'error',
-            message: 'Contraseña o usuario incorrecto.'
+            message: 'Correo Electrónico en uso, ingrese un nuevo correo .'
           })
         } else {
           setAlert({
@@ -100,6 +102,12 @@ const Register = () => {
         >
           Registrate
         </Typography>
+        <ControlledInput
+          control={control}
+          label='Nombre de Usuario'
+          name='username'
+          sx={{ mb: '1rem' }}
+        />
         <ControlledInput
           control={control}
           label='Correo electrónico'
