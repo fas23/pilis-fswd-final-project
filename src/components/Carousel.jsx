@@ -31,7 +31,6 @@ function Item (props) {
 export const Carousel = () => {
   const { listings} = useContext(MovieContext);
   const items = listings
-  console.log(items)
   return (
     <CarouselMUI sx={{ width: '100%', height: '800px'}}>
       {

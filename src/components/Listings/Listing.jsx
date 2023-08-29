@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const Listing = ({id, name, image, hour, price}) => {
  /*  const { id, name, image, hour, price} = listing */
  
-  console.log("id:",id);
+  /* console.log("id:",id); */
   return (
     <Grid item xs={8} lg={3}>
       <Card variant='outlined'>

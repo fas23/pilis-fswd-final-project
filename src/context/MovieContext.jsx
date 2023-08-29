@@ -8,6 +8,6 @@ export const MovieContext = createContext({
 export const MovieProvider = ({ children }) => {
   const [listings, setListings] = useState([]);
   const value = { listings, setListings};
-  console.log(listings)
+  /* console.log(listings) */
   return <MovieContext.Provider value={value}>{children}</MovieContext.Provider>;
 }
