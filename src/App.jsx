@@ -1,10 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-// import Login from './routes/Login/Login'
-import Register from './routes/Register/Register'
-import Recovery from './routes/Recovery/Recovery'
+import Login from './routes/Login'
+import Register from './routes/Register'
+import Recovery from './routes/Recovery'
 // import Navigation from './routes/Navigation/Navigation2'
 import Home from './routes/Home/Home'
-import { Login } from './routes/Login/Login'
 import { Navigation } from './routes/Navigation/Navigation'
 
 function App () {

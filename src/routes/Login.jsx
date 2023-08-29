@@ -4,9 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Box, Button, Container, IconButton, InputAdornment, Snackbar, Stack, Typography } from '@mui/material'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import * as yup from 'yup'
-import { ControlledInput } from '../../components/ControlledInput'
+import { ControlledInput } from '../components/ControlledInput'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../../services/login'
+import { login } from '../services/login'
 
 const loginSchema = yup.object({
   email: yup.string()
@@ -21,7 +21,7 @@ const loginSchema = yup.object({
     .required('La contraseña es obligatoria')
 }).required()
 
-export function Login () {
+export default function Login () {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [alert, setAlert] = useState(null)
@@ -54,8 +54,9 @@ export function Login () {
       .then((data) => {
         // setToken(data.token)
         // setCurrentUser({ email: data.user.email, name: data.user.name })
-        // navigate(URLS.WORKERS)
         console.log({ data })
+        window.localStorage.setItem('currentUser', JSON.stringify(data.user.email))
+        window.localStorage.setItem('token', JSON.stringify(data.token))
         navigate('/', { state: { message: 'jelouda' } })
       })
       .catch(error => {
@@ -165,7 +166,7 @@ export function Login () {
             sx={{ textTransform: 'initial', fontWeight: '700', fontSize: '1rem' }}
             component={Link}
             disabled={isLoading}
-            to='/recover-password'
+            to='/register'
           >
             Regístrate
           </Button>

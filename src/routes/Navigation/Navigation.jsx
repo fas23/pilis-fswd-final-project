@@ -88,7 +88,9 @@ export const Navigation = () => {
               <Button
                 variant='contained'
                 size='small'
-                type='submit'
+                component={Link}
+                to='/register'
+                // type='submit'
                 sx={{ textTransform: 'initial', fontSize: '1rem' }}
               >
                 Regístrate
