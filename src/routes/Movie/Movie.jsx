@@ -33,6 +33,7 @@ const Movie = () => {
 
   const [value, setValue] = useState('');
   console.log("campturado",value);
+
   //filtra las fechas
   const [fechas, setFechas]=useState([]);
   const [horas, setHoras]=useState([]);
@@ -51,21 +52,14 @@ const Movie = () => {
   }
   //filtra las horas
   
-  
-  /*const handleChange =(event, valueFecha) => {
-    setValue(valueFecha );
-      
-     setHoras(movies.cinemaShows.map((item)=>{item.hour, item.fechas}));    
-  }; */
   const [selectedValue, setSelectedValue] = useState('a');
   console.log("campturadoFecha",selectedValue);
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
-    setHoras(movies.cinemaShows.filter((item)=>item.date==event.target.value).map((item)=>item.hour));
+    setHoras(movies.cinemaShows.filter((item)=>item.date==event.target.value && item.room.name===value.label).map((item)=>item.hour));
   };
   
   console.log("horas",horas)
-
 
   const totalPrice= movies.cinemaShows.reduce((acc, item)=>acc+item.price,0);
   
@@ -170,6 +164,7 @@ const Movie = () => {
               required : 'Debe seleccionar una hora'}
           )}
           >
+            
             {uniqueFechas.map((value) => (
               <Sheet
                 key={value}
