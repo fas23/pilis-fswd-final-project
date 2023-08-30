@@ -17,9 +17,8 @@ import FormLabel from '@mui/joy/FormLabel';
 import Radio, { radioClasses } from '@mui/joy/Radio';
 import RadioGroup from '@mui/joy/RadioGroup';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import Carousel from 'react-material-ui-carousel'
-import CarouselHora from '../../components/CarouselMovie/CarouselHora'
-import { array } from 'yup';
+
+
 const Movie = () => {
   const { id } = useParams();
   const { listings} = useContext(MovieContext);
@@ -29,40 +28,37 @@ const Movie = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   //Lista de salas diponibles por pelicula   const uniqueRooms=['Estelar','Solaz']
-  
-
-  const [value, setValue] = useState('');
-  console.log("campturado",value);
+  const [roomSelected, setRoomSelected] = useState('');
 
   //filtra las fechas
   const [fechas, setFechas]=useState([]);
-  const [horas, setHoras]=useState([]);
-  console.log("Fechas",fechas)
-  let uniqueFechas = [...new Set(fechas)]; 
-  console.log("uniqueFechas",uniqueFechas)
-  
-  const [inputValue, setInputValue] = useState('');
-  
-  
+  let uniqueFechas = [...new Set(fechas)];   
   const handleSelected=(event, newValue) => {
-    console.log("value", newValue)
-    /* const valorSet = event.target.newValue; */
-    setValue(newValue);
-    setFechas(movies.cinemaShows.filter((item)=>item.room.name===newValue.label).map((item)=>item.date))
+    setRoomSelected(newValue);
+    setFechas(movies.cinemaShows.filter((item)=>item.room.name===newValue).map((item)=>item.date))
   }
   //filtra las horas
-  
-  const [selectedValue, setSelectedValue] = useState('a');
-  console.log("campturadoFecha",selectedValue);
+  const [horas, setHoras]=useState([]);
+  const [fechaSelected, setFechasSelected] = useState('a');
+  console.log("campturadoFecha",fechaSelected);
+
   const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-    setHoras(movies.cinemaShows.filter((item)=>item.date==event.target.value && item.room.name===value.label).map((item)=>item.hour));
+    setFechasSelected(event.target.value);
+    setHoras(movies.cinemaShows.filter((item)=>item.date==event.target.value && item.room.name===roomSelected).map((item)=>item.hour));
   };
   
-  console.log("horas",horas)
-
-  const totalPrice= movies.cinemaShows.reduce((acc, item)=>acc+item.price,0);
+  //precio por rooms
+  const [priceOn]=movies.cinemaShows.filter((item)=>item.room.name===roomSelected).map((item)=>item.price);
   
+  //cantidad de boletos 
+  const [quantity, setQuantity] = useState('');
+  const quantityAsNumber = Number(quantity);
+
+  //precio total
+  const totalPrice= quantityAsNumber==0? priceOn : priceOn * quantityAsNumber; 
+  //control de cantidad de boletos segun disponibilidad
+  const available=movies.cinemaShows.filter((item)=>item.room.date===fechaSelected).map((item)=>item.capacityAvailable)
+
   const[cart, setCart]=useState([])
   const onSubmit = (data) => {
     localStorage.setItem('addCart', JSON.stringify(data))
@@ -125,19 +121,13 @@ const Movie = () => {
           /* value={value} */
           options={uniqueRooms}
           onChange={handleSelected}
-          /* inputValue={inputValue} 
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-          }}*/
           style={{ width: 300 }}
-          renderInput={(params) => <TextField {...params} label='disableClearable' variant='standard' />}
         />
           <br />
           <RadioGroup
-            aria-label="platform"
-            defaultValue="Website"
+            aria-label="platform1"
             overlay
-            name="platform"
+            name="platform1"
             sx={{
               flexDirection: 'row',
               gap: 2,
@@ -189,10 +179,9 @@ const Movie = () => {
           <br />
           
           <RadioGroup
-            aria-label="platform"
-            defaultValue="Website"
+            aria-label="platform2"
             overlay
-            name="platform"
+            name="platform2"
             sx={{
               flexDirection: 'row',
               gap: 2,
@@ -234,7 +223,7 @@ const Movie = () => {
                   minWidth: 120,
                 }}
                 >
-                <Radio id={value} value={value} checkedIcon={<CheckCircleRoundedIcon />} />
+                <Radio id={value.toString()} value={value} checkedIcon={<CheckCircleRoundedIcon />} />
                 
                 <FormLabel htmlFor={value}>{value} Hrs</FormLabel>
               </Sheet>
@@ -242,9 +231,13 @@ const Movie = () => {
           </RadioGroup>
            
         <br />
+        
           <Input         
-            type="text"
+            type="number"
             placeholder='Ingrese la cantidad de boletos'
+            /* value={price}  */ 
+            max={available}
+            onInput={e =>{ setQuantity(e.target.value);  console.log("cantidad",quantity)}} 
             sx={{ width: 300 }}
             {...register('quantity', {
                 required : 'Debe ingresar una cantidad'}
@@ -274,9 +267,8 @@ const Movie = () => {
 export default Movie;
 
 const uniqueRooms = [
-  { label: 'Estelar' },
-  { label: 'Solaz' }
-  
+  'Estelar' ,
+  'Solaz'   
 ]; 
 console.log("rooms",uniqueRooms); 
 const animation = [
