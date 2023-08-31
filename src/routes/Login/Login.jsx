@@ -151,7 +151,7 @@ export function Login () {
           sx={{ textDecoration: 'underline', textTransform: 'initial', mx: 'auto', fontSize: '1rem' }}
           component={Link}
           disabled={isLoading}
-          to='/recover-password'
+          to='/recovery'
         >
           Olvidé mi contraseña
         </Button>
@@ -165,7 +165,7 @@ export function Login () {
             sx={{ textTransform: 'initial', fontWeight: '700', fontSize: '1rem' }}
             component={Link}
             disabled={isLoading}
-            to='/recover-password'
+            to='/register'
           >
             Regístrate
           </Button>
