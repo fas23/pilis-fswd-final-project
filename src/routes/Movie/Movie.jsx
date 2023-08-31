@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect, version } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { MovieContext } from '../../context/MovieContext';
+import { CartContext } from '../../context/CartContext';
 import { useForm, Controller } from "react-hook-form";
 import Grid from '@mui/joy/Grid';
 import Box from '@mui/joy/Box';
@@ -22,10 +23,14 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 const Movie = () => {
   const { id } = useParams();
   const { listings} = useContext(MovieContext);
+  const {cart,setCart}=useContext(CartContext);
   const [movies] = listings.filter( (item) => item.id === Number(id));
   console.log("list:",movies);
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  useEffect(() => {
+    setCart([...cart,movies])
+  }, []);
+  
 
   //Lista de salas diponibles por pelicula   const uniqueRooms=['Estelar','Solaz']
   const [roomSelected, setRoomSelected] = useState('');
@@ -42,27 +47,46 @@ const Movie = () => {
   const [fechaSelected, setFechasSelected] = useState('a');
   console.log("campturadoFecha",fechaSelected);
 
-  const handleChange = (event) => {
+  const handleChangeFecha = (event) => {
     setFechasSelected(event.target.value);
     setHoras(movies.cinemaShows.filter((item)=>item.date==event.target.value && item.room.name===roomSelected).map((item)=>item.hour));
   };
+
+  const [horaSelected, setHoraSelected]=useState('a')
+  console.log("campturadoHora",horaSelected);
+
+  const handleChangeHora = (event) => {
+    setHoraSelected(event.target.value);
+  };
   
+  /* const[available, setAvailable]=useState(' ') */
+  const [available]=movies.cinemaShows.filter((item)=>item.hour===horaSelected).map((item)=>item.capacityAvailable);
+  console.log("cantidadDisponible",available);
   //precio por rooms
   const [priceOn]=movies.cinemaShows.filter((item)=>item.room.name===roomSelected).map((item)=>item.price);
-  
   //cantidad de boletos 
-  const [quantity, setQuantity] = useState('');
+  const [quantity, setQuantity] = useState('');  
   const quantityAsNumber = Number(quantity);
 
   //precio total
   const totalPrice= quantityAsNumber==0? priceOn : priceOn * quantityAsNumber; 
   //control de cantidad de boletos segun disponibilidad
-  const available=movies.cinemaShows.filter((item)=>item.room.date===fechaSelected).map((item)=>item.capacityAvailable)
-
-  const[cart, setCart]=useState([])
+  
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data) => {
-    localStorage.setItem('addCart', JSON.stringify(data))
-    setCart(data)
+    console.log("datoStorage",data);
+    console.log("entró");
+    /* localStorage.setItem('addCart', JSON.stringify(data)) 
+    const moviesCart = {
+      id: id,
+      room: roomSelected, 
+      date: data.date,
+      hour: data.hour,
+      quantity: data.quantity
+    }
+
+    setCart([...cart, moviesCart]) */
+    /* setCart(data)  */
   }
 
   return (
@@ -122,7 +146,10 @@ const Movie = () => {
           options={uniqueRooms}
           onChange={handleSelected}
           style={{ width: 300 }}
-        />
+          /* {...register('animation', {
+            required: 'Debe ingresar una animación',
+          })}  */
+          />
           <br />
           <RadioGroup
             aria-label="platform1"
@@ -150,8 +177,8 @@ const Movie = () => {
                 },
               },
             }}
-            {...register('hour', {
-              required : 'Debe seleccionar una hora'}
+            {...register('date', {
+              required : 'Debe seleccionar una fecha'}
           )}
           >
             
@@ -170,7 +197,7 @@ const Movie = () => {
                   minWidth: 120,
                 }}
                 >
-                <Radio id={value} value={value} onChange={handleChange} checkedIcon={<CheckCircleRoundedIcon />} />
+                <Radio id={value} value={value} onChange={handleChangeFecha} checkedIcon={<CheckCircleRoundedIcon />} />
                 
                 <FormLabel htmlFor={value}>{value}</FormLabel>
               </Sheet>
@@ -223,14 +250,14 @@ const Movie = () => {
                   minWidth: 120,
                 }}
                 >
-                <Radio id={value.toString()} value={value} checkedIcon={<CheckCircleRoundedIcon />} />
+                <Radio id={value.toString()} value={value} onChange={handleChangeHora} checkedIcon={<CheckCircleRoundedIcon />} />
                 
                 <FormLabel htmlFor={value}>{value} Hrs</FormLabel>
               </Sheet>
             ))}
           </RadioGroup>
            
-        <br />
+          <br />
         
           <Input         
             type="number"
@@ -246,14 +273,14 @@ const Movie = () => {
           <br />
           <Typography level='body-xs'><b>Subtotal:</b> {totalPrice}</Typography>
           <br />
-          <Button type="submit" 
-                    size="md"
-                    variant="soft"
-                    color="neutral"
-                    aria-label="Explore Bahamas Islands"
+          <Link className='btn-see-more' to={`/cart/${id}`} >
+          
+          <Button type="submit" size="md" variant="soft" color="neutral" aria-label="Explore Bahamas Islands"
                     sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}>
                       {/* <img src={filter} alt="" style={{width:'30px'}}/> */}
                         Añadir al carrito</Button>
+          </Link>
+          
         </form>
       </Grid>
   

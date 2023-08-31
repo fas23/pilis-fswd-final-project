@@ -26,7 +26,7 @@ const Home = () => {
         <Carousel />
         </Grid>
         <Grid item xs={4}>
-        {/* <Trailers /> */}
+        <Trailers /> 
         </Grid>
       </Grid>
       {/* </div> */}
