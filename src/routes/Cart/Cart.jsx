@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import {Link } from 'react-router-dom';
 import { CartContext } from '../../context/CartContext';
 import { useContext, useState} from 'react';
 import Box from '@mui/joy/Box';
@@ -10,15 +10,24 @@ import Sheet from '@mui/joy/Sheet';
 import { Padding } from '@mui/icons-material';
 
 const Cart= ()=>{
-    const { id } = useParams();
     const { cart} = useContext(CartContext);
     console.log("en pagina de carrito",cart);
 
+    const totalPrices= cart.reduce((acc, item)=>acc+  item.total ,0); 
+
     return(
         <>
+        <Sheet variant='outlined' color='neutral' sx={{ p: 1, textAlign: 'center', backgroundColor: '#CCCCCC' }}>
+        <h1>Carrito de compra</h1>
+      </Sheet>
         <Box sx={{ width: '100%', padding:'2rem'}}>
             <Typography level="body-sm" textAlign="center" sx={{ pb: 2 }}>
-                ← Scroll direction →
+            <Link className='btn-see-more' to={`/`} >
+                <Button
+                type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
+                sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
+                    >Seguir comprando  </Button>
+                 </Link>
             </Typography>
             <Sheet
                 variant="outlined"
@@ -95,7 +104,7 @@ const Cart= ()=>{
                         <td>
                         <Box
                             component='img'
-                            src={row.image.url}
+                            src={row.image}
                             loading='lazy'
                             sx={{
                             width: '200px',
@@ -104,12 +113,12 @@ const Cart= ()=>{
                             objectPosition: 'center',
                             paddingTop:'20px'
                             }}
-                            />
+                            /> 
                         </td>
-                        <td>{row.title}</td> 
-                        <td>{900}</td>
-                        <td>{2}</td>
-                        <td>{1800}$</td>
+                        <td>{row.name}</td> 
+                        <td>$ {row.price}</td>
+                        <td>{row.quantity}</td>
+                        <td>$ {row.total}</td>
                         <td>
                         <Box sx={{ display: 'flex', gap: 1 }}>
                             <Button size="sm" variant="soft" color="danger">
@@ -121,6 +130,15 @@ const Cart= ()=>{
                      ))} 
                 </tbody>
                 </Table>
+            </Sheet>
+            <Sheet sx={{textAlign:'right', paddingRight:'2rem'}}>
+            <Typography level='h2' sx={{color:'black', paddingRight:'2rem',paddingTop:'2rem'}}>Total: $ {totalPrices}</Typography>
+            <br />
+            <Button
+                type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
+                sx={{ ml: 'auto', width:'200px', alignSelf: 'center', fontWeight: 600 }}
+                    >Pagar  </Button>
+
             </Sheet>
         </Box>
         </>

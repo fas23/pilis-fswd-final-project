@@ -27,10 +27,6 @@ const Movie = () => {
   console.log('list:', movies)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    setCart([...cart, movies])
-  }, [])
-
   // Lista de salas diponibles por pelicula   const uniqueRooms=['Estelar','Solaz']
   const [roomSelected, setRoomSelected] = useState('')
 
@@ -73,20 +69,24 @@ const Movie = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
   const onSubmit = (data) => {
-    console.log('datoStorage', data)
-    console.log('entró')
-    navigate('/cart')
+    console.log('datoStorage', data);
+    
     window.localStorage.setItem('addCart', JSON.stringify(data))
     const moviesCart = {
       id,
+      image:movies.image.url,
       room: roomSelected,
+      name:movies.title,
       date: data.date,
       hour: data.hour,
-      quantity: data.quantity
+      quantity: data.quantity,
+      price:priceOn,
+      total:totalPrice
     }
 
     setCart([...cart, moviesCart])
     /* setCart(data)  */
+    navigate('/cart')
   }
 
   return (
@@ -146,6 +146,8 @@ const Movie = () => {
               options={uniqueRooms}
               onChange={handleSelected}
               style={{ width: 300 }}
+              /* {...register('animation', { required: 'Debe seleccionar una animación' }
+              )} */
             />
             <br />
             <RadioGroup
@@ -266,7 +268,7 @@ const Movie = () => {
           }
             />
             <br />
-            <Typography level='body-xs'><b>Subtotal:</b> {totalPrice}</Typography>
+            <Typography level='body-xs'><b>Subtotal: $</b> {totalPrice}</Typography>
             <br />
             {/* <Link className='btn-see-more' to={`/cart/${id}`}> */}
 
