@@ -21,7 +21,7 @@ const Listing = ({ id, name, image, hour, price }) => {
         />
         <CardContent orientation='horizontal' sx={{ padding: '1rem' }}>
           <Stack spacing={1} sx={{ width: '100%' }}>
-            <Typography level='title-lg' sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
+            <Typography level='title-lg' sx={{ fontSize: '1rem', fontWeight: 'bold' }}>
               {name}
             </Typography>
 
