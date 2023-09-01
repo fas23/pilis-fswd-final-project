@@ -1,89 +1,178 @@
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import { Link } from 'react-router-dom'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-import img from '../../assets/img/palomitas.png'
-import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { lightBlue } from '@mui/material/colors'
+import * as yup from 'yup'
+import { Alert, Box, Button, Container, IconButton, InputAdornment, Snackbar, Stack, Typography } from '@mui/material'
+import { ControlledInput } from '../../components/ControlledInput'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { register } from '../../services/register'
+const registerSchema = yup.object({
+  email: yup.string()
+    .email('El correo electrónico no es válido')
+    .required('El correo electrónico es obligatorio')
+    .max(255, 'El correo electrónico no debe tener más de 255 caracteres')
+    .matches(
+      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      'El correo electrónico no es válido'
+    ),
+  password: yup.string()
+    .required('La contraseña es obligatoria'),
+  username: yup.string()
+    .required('El nombre de usuario es requerido')
+}).required()
 
-const defaultTheme = createTheme()
+const Register = () => {
+  const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [alert, setAlert] = useState(null)
 
-export default function Register () {
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    })
+  const navigate = useNavigate()
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
   }
 
+  const handleClickShowPassword = () => setShowPassword(show => !show)
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault()
+  }
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(registerSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    },
+    mode: 'onChange'
+  })
+
+  const onSubmit = data => {
+    console.log({ data })
+    setIsLoading(true)
+    register(data)
+      .then((data) => {
+        console.log({ data })
+        navigate('/login')
+      })
+      .catch(error => {
+        console.log({ error })
+        if (error.response.status === 403) {
+          setAlert({
+            open: true,
+            type: 'error',
+            message: 'Correo Electrónico en uso, ingrese un nuevo correo .'
+          })
+        } else {
+          setAlert({
+            open: true,
+            type: 'error',
+            message: 'Ups, hubo un error, intente de nuevo.'
+          })
+        }
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
+  }
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component='main' maxWidth='xs'>
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-          }}
+    <Container
+      sx={{
+        height: '70vh',
+        display: 'flex',
+        alignItems: 'center'
+      }}
+    >
+      <Box
+        component='form'
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+          padding: '1rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          mx: 'auto',
+          width: { xs: '90%', sm: '50%', lg: '40%' }
+        }}
+      >
+        <Typography
+          component='h1'
+          variant='h1'
+          sx={{ fontWeight: 'bold', mb: '2rem', fontSize: '40px' }}
         >
-          <Avatar sx={{ m: 1, bgcolor: lightBlue[500] }} src={img} />
-          <Typography component='h1' variant='h5'>
-            Regístrate
+          Registrate
+        </Typography>
+        <ControlledInput
+          control={control}
+          label='Nombre de Usuario'
+          name='username'
+          sx={{ mb: '1rem' }}
+        />
+        <ControlledInput
+          control={control}
+          label='Correo electrónico'
+          name='email'
+          sx={{ mb: '1rem' }}
+        />
+
+        <ControlledInput
+          control={control}
+          label='Contraseña'
+          name='password'
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton
+                  aria-label='toggle password visibility'
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge='end'
+                  type='button'
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            )
+          }}
+          sx={{ mb: '1rem' }}
+        />
+        <Button
+          variant='contained'
+          size='large'
+          type='submit'
+          disabled={isLoading}
+          sx={{ textTransform: 'initial', width: '100%', mb: '1rem', fontSize: '1.1rem' }}
+        >
+          {isLoading ? 'Cargando...' : 'Registrarme'}
+        </Button>
+        <Stack direction='row' alignItems='center' sx={{ mx: 'auto' }}>
+          <Typography>
+            ¿Ya tienes una cuenta?
           </Typography>
-          <Box
-            component='form'
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
+          <Button
+            variant='text' size='large' type='button'
+            sx={{ textTransform: 'initial', fontWeight: '700', fontSize: '1rem' }}
+            component={Link}
+            disabled={isLoading}
+            to='/login'
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id='email'
-                  label='Correo Electrónico'
-                  name='email'
-                  autoComplete='email'
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name='password'
-                  label='Contraseña'
-                  type='password'
-                  id='password'
-                  autoComplete='new-password'
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Registrarme
-            </Button>
-            <Grid container justifyContent='flex-end'>
-              <Grid item>
-                <Link to='/login' variant='body2'>
-                  Ya tienes cuenta? Inicia Sesión
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+            Iniciar Sesión
+          </Button>
+        </Stack>
+        <Snackbar open={alert?.open}>
+          <Alert
+            onClose={handleCloseAlert}
+            severity={alert?.type}
+            sx={{ width: '100%' }}
+          >
+            {alert?.message}
+          </Alert>
+        </Snackbar>
+      </Box>
+    </Container>
+
   )
 }
+
+export default Register
