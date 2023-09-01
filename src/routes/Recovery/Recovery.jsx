@@ -1,4 +1,4 @@
-import Avatar from '@mui/material/Avatar'
+// import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { Link } from 'react-router-dom'
@@ -7,8 +7,8 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import img from '../../assets/img/palomitas.png'
-import { lightBlue } from '@mui/material/colors'
+// import img from '../../assets/img/palomitas.png'
+// import { lightBlue } from '@mui/material/colors'
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -35,7 +35,7 @@ export default function Recovery () {
             alignItems: 'center'
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: lightBlue[500] }} src={img} />
+          {/* <Avatar sx={{ m: 1, bgcolor: lightBlue[500] }} src={img} /> */}
           <Typography component='h1' variant='h5'>
             Recupera tu contraseña
           </Typography>

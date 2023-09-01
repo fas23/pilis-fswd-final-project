@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Box, Button, Container, IconButton, InputAdornment, Snackbar, Stack, Typography } from '@mui/material'
@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import { ControlledInput } from '../../components/ControlledInput'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../../services/login'
+import { UserContext } from '../../context/UserContext'
 
 const loginSchema = yup.object({
   email: yup.string()
@@ -22,6 +23,7 @@ const loginSchema = yup.object({
 }).required()
 
 export function Login () {
+  const { setCurrentUser } = useContext(UserContext)
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [alert, setAlert] = useState(null)
@@ -48,14 +50,15 @@ export function Login () {
   })
 
   const onSubmit = data => {
-    // console.log({ data })
     setIsLoading(true)
     login(data)
       .then((data) => {
         // setToken(data.token)
         // setCurrentUser({ email: data.user.email, name: data.user.name })
         // navigate(URLS.WORKERS)
-        console.log({ data })
+        window.localStorage.setItem('currentUser', JSON.stringify(data.user.email))
+        window.localStorage.setItem('token', JSON.stringify(data.token))
+        setCurrentUser(data.user.email)
         navigate('/', { state: { message: 'jelouda' } })
       })
       .catch(error => {
@@ -111,6 +114,7 @@ export function Login () {
           control={control}
           label='Correo electrónico'
           name='email'
+          autoFocus
           sx={{ mb: '1rem' }}
         />
 

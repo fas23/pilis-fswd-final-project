@@ -7,6 +7,8 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { register } from '../../services/register'
+
+const VALID_PASSWORD_REGEX = /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$/
 const registerSchema = yup.object({
   email: yup.string()
     .email('El correo electrónico no es válido')
@@ -17,7 +19,9 @@ const registerSchema = yup.object({
       'El correo electrónico no es válido'
     ),
   password: yup.string()
-    .required('La contraseña es obligatoria'),
+    .required('La contraseña es obligatoria')
+    .matches(VALID_PASSWORD_REGEX,
+      'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial'),
   username: yup.string()
     .required('El nombre de usuario es requerido')
 }).required()
@@ -106,6 +110,7 @@ const Register = () => {
           control={control}
           label='Nombre de Usuario'
           name='username'
+          autoFocus
           sx={{ mb: '1rem' }}
         />
         <ControlledInput

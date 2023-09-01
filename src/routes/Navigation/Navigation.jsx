@@ -1,20 +1,34 @@
-import { useState } from 'react'
+import { useContext, useEffect } from 'react'
 import {
   Box,
   Typography,
   IconButton,
   Button
-
 } from '@mui/material'
 
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import logo from '../../assets/img/palomitas.png'
 import { BarsIcon, CartIcon } from '../../components/Icons'
-
-const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+import { UserContext } from '../../context/UserContext'
+import Profile from '../../components/Profile'
 
 export const Navigation = () => {
+  const navigate = useNavigate()
+  const { currentUser, setCurrentUser } = useContext(UserContext)
+  useEffect(() => {
+    const userStored = window.localStorage.getItem('currentUser')
+    console.log({ userStored })
+    if (userStored) {
+      setCurrentUser(JSON.parse(userStored))
+    }
+  }, [])
+
+  const handleSignOut = () => {
+    setCurrentUser(null)
+    navigate('/')
+    window.localStorage.clear()
+  }
+
   return (
     <>
       <Box
@@ -43,8 +57,9 @@ export const Navigation = () => {
             <Typography
               variant='h6'
               noWrap
-              component='a'
-              href='/'
+              component={Link}
+              to='/'
+              // href='/'
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
@@ -65,7 +80,7 @@ export const Navigation = () => {
           }}
           >
             <Box sx={{
-              display: { xs: 'block', md: 'flex' },
+              display: { xs: 'none', md: 'flex' },
               gap: { xs: '0', md: '1rem' },
               position: { xs: 'absolute', md: 'initial' },
               top: { xs: '5rem', md: 'initial' },
@@ -77,27 +92,40 @@ export const Navigation = () => {
               // transform: { xs: 'translateX(-100%)', md: 'initial' },
             }}
             >
-              <Button
-                variant='text' size='large' type='button'
-                sx={{ textDecoration: 'underline', textTransform: 'initial', fontSize: '1rem' }}
-                component={Link}
-                to='/login'
-              >
-                Iniciar sesión
-              </Button>
-              <Button
-                variant='contained'
-                size='small'
-                type='submit'
-                sx={{ textTransform: 'initial', fontSize: '1rem' }}
-              >
-                Regístrate
-              </Button>
+              {!currentUser &&
+                <>
+                  <Button
+                    variant='text' size='large' type='button'
+                    sx={{ textDecoration: 'underline', textTransform: 'initial', fontSize: '1rem' }}
+                    component={Link}
+                    to='/login'
+                  >
+                    Iniciar sesión
+                  </Button>
+
+                  <Button
+                    variant='contained'
+                    size='small'
+                    type='submit'
+                    sx={{ textTransform: 'initial', fontSize: '1rem' }}
+                    component={Link}
+                    to='/register'
+                  >
+                    Regístrate
+                  </Button>
+                </>}
             </Box>
 
-            <IconButton aria-label='cart'>
+            <IconButton
+              aria-label='cart'
+              component={Link}
+              to='/cart'
+            >
               <CartIcon />
             </IconButton>
+            {
+              currentUser && <Profile user={currentUser} out={handleSignOut} />
+            }
 
             <IconButton
               aria-label='bars'
