@@ -26,7 +26,7 @@ const Movie = () => {
   const [movies] = listings.filter((item) => item.id === Number(id))
   console.log('list:', movies)
   const navigate = useNavigate()
-
+  
   // Lista de salas diponibles por pelicula   const uniqueRooms=['Estelar','Solaz']
   const [roomSelected, setRoomSelected] = useState('')
 
@@ -62,18 +62,21 @@ const Movie = () => {
   // cantidad de boletos
   const [quantity, setQuantity] = useState('')
   const quantityAsNumber = Number(quantity)
+  // control de cantidad de boletos segun disponibilidad
 
   // precio total
   const totalPrice = quantityAsNumber == 0 ? priceOn : priceOn * quantityAsNumber
-  // control de cantidad de boletos segun disponibilidad
+  //id de cinemaShow
+  const [cinemaShowId]= movies.cinemaShows.filter((item) => item.date === fechaSelected && item.room.name==roomSelected).map((item) => item.id);
+  console.log('id',cinemaShowId)
 
   const { register, handleSubmit, formState: { errors } } = useForm()
   const onSubmit = (data) => {
     console.log('datoStorage', data);
     
-    window.localStorage.setItem('addCart', JSON.stringify(data))
     const moviesCart = {
-      id,
+      id:crypto.randomUUID(),
+      cinemaShowId:cinemaShowId,
       image:movies.image.url,
       room: roomSelected,
       name:movies.title,
@@ -83,9 +86,9 @@ const Movie = () => {
       price:priceOn,
       total:totalPrice
     }
-
+    window.localStorage.setItem('addCart', JSON.stringify([...cart, moviesCart]))
     setCart([...cart, moviesCart])
-    /* setCart(data)  */
+    
     navigate('/cart')
   }
 

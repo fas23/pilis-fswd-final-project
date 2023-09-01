@@ -1,19 +1,54 @@
-import React from 'react';
-import {Link } from 'react-router-dom';
-import { CartContext } from '../../context/CartContext';
-import { useContext, useState} from 'react';
-import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Table from '@mui/joy/Table';
-import Typography from '@mui/joy/Typography';
-import Sheet from '@mui/joy/Sheet';
-import { Padding } from '@mui/icons-material';
+import React, { useEffect } from 'react'
+import {Link, json, useNavigate } from 'react-router-dom'
+import { CartContext } from '../../context/CartContext'
+import { useContext, useState} from 'react'
+import Box from '@mui/joy/Box'
+import Button from '@mui/joy/Button'
+import Table from '@mui/joy/Table'
+import Typography from '@mui/joy/Typography'
+import Sheet from '@mui/joy/Sheet'
+import { Padding } from '@mui/icons-material'
+import {payment} from '../../services/payment'
 
 const Cart= ()=>{
-    const { cart} = useContext(CartContext);
-    console.log("en pagina de carrito",cart);
+    const { cart, setCart} = useContext(CartContext)
+    const navigate = useNavigate()
 
-    const totalPrices= cart.reduce((acc, item)=>acc+  item.total ,0); 
+    useEffect(()=>{
+        const localCart=JSON.parse(window.localStorage.getItem('addCart'))
+        console.log('en pagina de carrito',localCart)
+        setCart(localCart!==null?localCart:[])
+    },[])
+
+    const totalPrices= cart? cart.reduce((acc, item)=>acc+  item.total ,0):undefined
+    const handleDelete=(id)=>{
+        const cartFilter= cart.filter((item)=>item.id!==id)
+        window.localStorage.setItem('addCart',JSON.stringify(cartFilter))
+        setCart(cartFilter)
+    }
+    const handlePayment=()=>{
+        const items=cart.map((item)=>{
+            return{
+                cinemaShowId: item.cinemaShowId,
+                title: item.name,
+                unitPrice: item.price,
+                quantity: item.quantity
+            }
+        })
+        console.log('itemsCart',items)
+        payment(items)
+        .then(data=>{
+            console.log('payment',data)
+            window.localStorage.setItem('addCart',JSON.stringify([]))
+            window.localStorage.setItem('addTicket',JSON.stringify(cart))
+            console.log('esto se va enviar',cart)
+            /* setCart([]) */
+            /* console.log('como quedó cart',cart) */
+            navigate('/tickets')
+        })
+        .catch((err) => console.log(err));
+        
+    }
 
     return(
         <>
@@ -22,15 +57,15 @@ const Cart= ()=>{
       </Sheet>
         <Box sx={{ width: '100%', padding:'2rem'}}>
             <Typography level="body-sm" textAlign="center" sx={{ pb: 2 }}>
-            <Link className='btn-see-more' to={`/`} >
-                <Button
-                type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
-                sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
-                    >Seguir comprando  </Button>
-                 </Link>
+                <Link className='btn-see-more' to={`/`} >
+                    <Button
+                    type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
+                    sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
+                        >Seguir comprando  </Button>
+                </Link>
             </Typography>
             <Sheet
-                variant="outlined"
+                variant='outlined'
                 sx={{
                 '--TableCell-height': '40px',
                 // El número es la cantidad de las filas de encabezado.
@@ -99,8 +134,8 @@ const Cart= ()=>{
                     </tr>
                 </thead>
                 <tbody>
-                    {cart.map((row) => ( 
-                    <tr key={cart}>
+                    {cart!==null && cart.map((row) => ( 
+                    <tr key={row.id}>
                         <td>
                         <Box
                             component='img'
@@ -121,7 +156,7 @@ const Cart= ()=>{
                         <td>$ {row.total}</td>
                         <td>
                         <Box sx={{ display: 'flex', gap: 1 }}>
-                            <Button size="sm" variant="soft" color="danger">
+                            <Button size="sm" variant="soft" color="danger" onClick={()=>handleDelete(row.id)}>
                             Delete
                             </Button>
                         </Box>
@@ -134,10 +169,12 @@ const Cart= ()=>{
             <Sheet sx={{textAlign:'right', paddingRight:'2rem'}}>
             <Typography level='h2' sx={{color:'black', paddingRight:'2rem',paddingTop:'2rem'}}>Total: $ {totalPrices}</Typography>
             <br />
+            {cart.length!==0 &&
             <Button
                 type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
                 sx={{ ml: 'auto', width:'200px', alignSelf: 'center', fontWeight: 600 }}
-                    >Pagar  </Button>
+                onClick={handlePayment}
+                    >Pagar  </Button>}
 
             </Sheet>
         </Box>

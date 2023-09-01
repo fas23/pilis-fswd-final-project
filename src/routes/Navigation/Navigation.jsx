@@ -6,8 +6,7 @@ import {
   Button
 
 } from '@mui/material'
-
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate} from 'react-router-dom'
 import logo from '../../assets/img/palomitas.png'
 import { BarsIcon, CartIcon } from '../../components/Icons'
 
@@ -15,6 +14,7 @@ const pages = ['Products', 'Pricing', 'Blog']
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 export const Navigation = () => {
+  const navigate = useNavigate()
   return (
     <>
       <Box
@@ -95,7 +95,7 @@ export const Navigation = () => {
               </Button>
             </Box>
 
-            <IconButton aria-label='cart'>
+            <IconButton aria-label='cart' onClick={()=>navigate('/cart')}>
               <CartIcon />
             </IconButton>
 

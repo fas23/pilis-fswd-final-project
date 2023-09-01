@@ -8,6 +8,7 @@ import { Login } from './routes/Login/Login'
 import { Navigation } from './routes/Navigation/Navigation'
 import Movie from './routes/Movie/Movie'
 import Cart from './routes/Cart/Cart'
+import Tickets from './routes/Tickets/Tickets'
 
 function App () {
   return (
@@ -20,6 +21,7 @@ function App () {
           <Route path='/recovery' element={<Recovery />} />
           <Route path='/listing/:id' element={<Movie />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/tickets' element={<Tickets />} />
         </Route>
       </Routes>
     </BrowserRouter>
