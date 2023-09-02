@@ -4,13 +4,13 @@ import Trailers from '../../components/Trailers/Trailers'
 import Listings from '../../components/Listings/Listings'
 import Filter from '../../components/Filter/Filter'
 import { Carousel } from '../../components/Carousel'
-import Sheet from '@mui/joy/Sheet';
+import Sheet from '@mui/joy/Sheet'
 /* import { useLocation } from 'react-router-dom' */
 
 const Home = () => {
   /* const location = useLocation() */
   /* const { message } = location.state */
- /*  console.log({ message }) */
+  /*  console.log({ message }) */
   return (
 
     <Box
@@ -20,29 +20,29 @@ const Home = () => {
         mx: 'auto'
       }}
     >
-      
+
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
         <Grid item xs={8}>
-        <Carousel />
+          <Carousel />
         </Grid>
         <Grid item xs={4}>
-        <Trailers /> 
+          <Trailers />
         </Grid>
       </Grid>
       {/* </div> */}
-      
+
       {/* <div className='next'>
             <h2>Próximos estrenos</h2>
             <Trailers />
           </div>
         </div> */}
-      <Sheet color="neutral" sx={{ p: 1, textAlign:'center' }}>
+      <Sheet color='neutral' sx={{ p: 1, textAlign: 'center' }}>
         <h2>En cartelera</h2>
       </Sheet>
       <div className='filter'>
         <Filter />
       </div>
-      
+
       <Listings />
     </Box>
 
