@@ -1,8 +1,9 @@
-import { Box, Divider, Grid, Card, CardContent, CardActions, Typography } from '@mui/material'
+import { Box, Divider, Grid, Card, CardContent, CardActions, Typography, Button } from '@mui/material'
 import { Stack } from '@mui/joy'
-import { BankNotesIcon, ClockIcon } from '../Icons'
+import { BankNotesIcon, ClockIcon, TicketIcon } from '../Icons'
 // import { Link } from 'react-router-dom'
-import ConfirmationLogin from '../modal/ConfirmationLogin'
+// import ConfirmationLogin from '../modal/ConfirmationLogin'
+import { Link } from 'react-router-dom'
 
 const Listing = ({ id, name, image, hour, price }) => {
   return (
@@ -42,17 +43,14 @@ const Listing = ({ id, name, image, hour, price }) => {
           </Stack>
         </CardContent>
         <CardActions sx={{ padding: 0 }}>
-          {/* <Link className='btn-see-more' to={`/listing/${id}`}> */}
-          <ConfirmationLogin id={id} />
-          {/* <Button
-            variant='contained' startIcon={<TicketIcon />} sx={{ width: '100%', borderRadius: 0 }}
-            // onClick={handleUser}
-            onClick={handleOpen}
-          >
-            COMPRAR TICKETS
-          </Button> */}
-
-          {/* </Link> */}
+          {/* <ConfirmationLogin id={id} /> */}
+          <Link className='btn-see-more' to={`/listing/${id}`}>
+            <Button
+              variant='contained' startIcon={<TicketIcon />} sx={{ width: '100%', borderRadius: 0 }}
+            >
+              COMPRAR TICKETS
+            </Button>
+          </Link>
         </CardActions>
       </Card>
     </Grid>

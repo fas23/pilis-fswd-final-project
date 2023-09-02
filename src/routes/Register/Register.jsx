@@ -61,7 +61,7 @@ const Register = () => {
       })
       .catch(error => {
         console.log({ error })
-        if (error.response.status === 403) {
+        if (error.response.status === 403 || error.response.status === 500) {
           setAlert({
             open: true,
             type: 'error',
