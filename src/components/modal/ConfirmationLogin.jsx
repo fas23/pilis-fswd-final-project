@@ -6,10 +6,10 @@ import Fade from '@mui/material/Fade'
 // import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { Button } from '@mui/material'
-import { TicketIcon } from '../Icons'
+// import { TicketIcon } from '../Icons'
 import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const style = {
   position: 'absolute',
@@ -23,29 +23,36 @@ const style = {
   p: 4
 }
 
-export default function ConfirmationLogin ({ id }) {
-  const navigate = useNavigate()
+export default function ConfirmationLogin ({ payment }) {
+  // const navigate = useNavigate()
   const { currentUser } = useContext(UserContext)
 
   const [open, setOpen] = React.useState(false)
-  const handleOpen = () => {
-    if (currentUser !== null) {
-      navigate(`listing/${id}`)
-    } else {
-      setOpen(true)
-    }
-  }
+  const handleOpen = () => setOpen(true)
+  // {
+  //   if (currentUser !== null) {
+  //     // navigate(`listing/${id}`)
+  //   } else {
+  //     setOpen(true)
+  //   }
+  // }
 
   const handleClose = () => setOpen(false)
 
   return (
     <div>
-      <Button
+      {
+        currentUser
+          ? <Button type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands' sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }} onClick={payment}> Pagar</Button>
+          : <Button onClick={handleOpen} size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands' sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}>Pagar</Button>
+}
+
+      {/* <Button
         variant='contained' startIcon={<TicketIcon />} sx={{ width: '100%', borderRadius: 0 }}
         onClick={handleOpen}
       >
         COMPRAR TICKETS
-      </Button>
+      </Button> */}
       <Modal
         aria-labelledby='transition-modal-title'
         aria-describedby='transition-modal-description'
@@ -69,7 +76,7 @@ export default function ConfirmationLogin ({ id }) {
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
               <Button component={Link} to='/login' variant='contained'>
-                Login
+                Ir
               </Button>
             </Box>
           </Box>
