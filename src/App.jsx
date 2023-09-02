@@ -9,6 +9,8 @@ import { Navigation } from './routes/Navigation/Navigation'
 import Movie from './routes/Movie/Movie'
 import Cart from './routes/Cart/Cart'
 import Tickets from './routes/Tickets/Tickets'
+import { UploadMovie } from './routes/UploadMovie/UploadMovie'
+import { AvailableMovies } from './routes/AvailableMovies/AvailableMovies'
 
 function App () {
   return (
@@ -22,6 +24,8 @@ function App () {
           <Route path='/listing/:id' element={<Movie />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/tickets' element={<Tickets />} />
+          <Route path='/upload-movie' element={<UploadMovie />} />
+          <Route path='/available-movies' element={<AvailableMovies />} />
         </Route>
       </Routes>
     </BrowserRouter>
