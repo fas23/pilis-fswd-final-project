@@ -40,9 +40,9 @@ const Cart= ()=>{
         .then(data=>{
             console.log('payment',data)
             window.localStorage.setItem('addCart',JSON.stringify([]))
-            window.localStorage.setItem('addTicket',JSON.stringify(cart))
-            console.log('esto se va enviar',cart)
-            /* setCart([]) */
+            /* window.localStorage.setItem('addTicket',JSON.stringify(cart))
+            console.log('esto se va enviar',cart) */
+            setCart([]) 
             /* console.log('como quedó cart',cart) */
             navigate('/tickets')
         })

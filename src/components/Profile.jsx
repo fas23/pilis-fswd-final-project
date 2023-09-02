@@ -1,3 +1,4 @@
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material'
 import { UserIcon } from './Icons/UserIcon'
 import { useState } from 'react'
@@ -71,7 +72,9 @@ const Profile = ({ user, out }) => {
           {/* <Avatar /> */}
           Mi Cuenta
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose}
+                  component={Link}
+                  to='/tickets'>
           {/* <ListItemIcon>
             <Settings fontSize='small' />
           </ListItemIcon> */}
