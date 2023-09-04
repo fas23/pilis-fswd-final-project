@@ -1,16 +1,22 @@
 /* eslint-disable react/jsx-closing-tag-location */
-import { Backdrop, Box, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Container, Grid, Stack, TextField, Typography } from '@mui/material'
+import { Alert, Backdrop, Box, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Container, Grid, Snackbar, Stack, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { moviesWithoutCinemaShows } from '../../services/moviesWithoutCinemaShows'
 import { ArrowsRightLeftIcon, PencilIcon, PlusIcon, SearchIcon, TrashIcon, TvIcon } from '../../components/Icons'
 import { movie } from '../../services/movie'
+import { deleteMovie } from '../../services/deleteMovie.'
 
 export const AvailableMovies = () => {
   const [movies, setMovies] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [value, setValue] = useState('')
   const [toggle, setToggle] = useState(false)
+  const [alert, setAlert] = useState(null)
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
+  }
 
   const navigate = useNavigate()
 
@@ -88,6 +94,29 @@ export const AvailableMovies = () => {
         }
       }
     })
+  }
+
+  const handleEditMovie = (movie) => {
+    navigate('/upload-movie', { state: { movie } })
+  }
+
+  const handleDeleteMovie = (movie) => {
+    deleteMovie(movie.id)
+      .then(() => {
+        setAlert({
+          open: true,
+          type: 'success',
+          message: 'Película eliminada correctamente.'
+        })
+      })
+      .catch(() => {
+        setAlert({
+          open: true,
+          type: 'error',
+          message: 'La película no pudo ser eliminada. Contiene funciones activas'
+        })
+      })
+      .finally(() => {})
   }
 
   return (
@@ -212,12 +241,14 @@ export const AvailableMovies = () => {
                 <Button
                   variant='text' startIcon={<PencilIcon />}
                   sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                  onClick={() => handleEditMovie(movie)}
                 >
                   Editar
                 </Button>
                 <Button
                   variant='text' startIcon={<TrashIcon />}
                   sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                  onClick={() => handleDeleteMovie(movie)}
                 >
                   Eliminar
                 </Button>
@@ -226,6 +257,15 @@ export const AvailableMovies = () => {
           </Grid>
         ))}
       </Grid>
+      <Snackbar open={alert?.open} autoHideDuration={6000}>
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alert?.type}
+          sx={{ width: '100%' }}
+        >
+          {alert?.message}
+        </Alert>
+      </Snackbar>
     </Container>
   )
 }

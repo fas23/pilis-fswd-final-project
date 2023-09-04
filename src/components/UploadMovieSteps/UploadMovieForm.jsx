@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import { ControlledSelect } from '../ControlledSelect'
 import { options } from '../../utils/optionsToSelect'
 import { uploadMovie } from '../../services/uploadMovie'
+import { updateMovie } from '../../services/updateMovie'
 
 const movieSchema = yup.object({
   title: yup.string()
@@ -29,7 +30,7 @@ const movieSchema = yup.object({
 }).required()
 
 export const UploadMovieForm = (props) => {
-  const { imageId, handleNext } = props
+  const { imageId, handleNext, movie } = props
 
   const [isLoading, setIsLoading] = useState(false)
   const [alert, setAlert] = useState(null)
@@ -37,11 +38,11 @@ export const UploadMovieForm = (props) => {
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(movieSchema),
     defaultValues: {
-      title: '',
-      director: '',
-      trailerUrl: '',
-      gender: '',
-      description: ''
+      title: movie !== undefined ? movie.title : '',
+      director: movie !== undefined ? movie.director : '',
+      trailerUrl: movie !== undefined ? movie.trailerUrl : '',
+      gender: movie !== undefined ? movie.gender : '',
+      description: movie !== undefined ? movie.description : ''
     },
     mode: 'onChange'
   })
@@ -52,17 +53,31 @@ export const UploadMovieForm = (props) => {
 
   const onSubmit = data => {
     setIsLoading(true)
-    uploadMovie({ ...data, imageId })
-      .then(() => {
-        setAlert({
-          open: true,
-          type: 'success',
-          message: 'Película cargada correctamente.'
+    if (movie !== undefined) {
+      updateMovie(movie.id, { ...data, imageId })
+        .then(() => {
+          setAlert({
+            open: true,
+            type: 'success',
+            message: 'Película editada correctamente.'
+          })
+          handleNext()
         })
-        handleNext()
-      })
-      .catch(error => { console.log({ error }) })
-      .finally(() => setIsLoading(false))
+        .catch(error => { console.log({ error }) })
+        .finally(() => setIsLoading(false))
+    } else {
+      uploadMovie({ ...data, imageId })
+        .then(() => {
+          setAlert({
+            open: true,
+            type: 'success',
+            message: 'Película cargada correctamente.'
+          })
+          handleNext()
+        })
+        .catch(error => { console.log({ error }) })
+        .finally(() => setIsLoading(false))
+    }
   }
 
   return (
@@ -85,7 +100,7 @@ export const UploadMovieForm = (props) => {
           fontSize: '2rem'
         }}
       >
-        Carga de datos para nueva película
+        {movie !== undefined ? 'Editar película' : 'Cargar película'}
       </Typography>
       <ControlledInput
         control={control}
