@@ -28,14 +28,13 @@ export const AvailableMovies = () => {
       })
       .catch(err => console.log(err))
       .finally(() => setIsLoading(false))
-  }, [])
+  }, [alert])
 
   const handleChangeMovies = () => {
     setIsLoading(true)
     if (!toggle) {
       movie()
         .then(data => {
-          console.log({ data })
           const { response } = data
           setMovies(response)
           setToggle(true)
@@ -82,7 +81,6 @@ export const AvailableMovies = () => {
 
   const handleShowCinemaShows = (movie) => {
     const { id, title, cinemaShows, image: { url } } = movie
-    console.log({ cinemaShows })
 
     navigate('/cinemashows', {
       state: {
@@ -257,7 +255,7 @@ export const AvailableMovies = () => {
           </Grid>
         ))}
       </Grid>
-      <Snackbar open={alert?.open} autoHideDuration={6000}>
+      <Snackbar open={alert?.open}>
         <Alert
           onClose={handleCloseAlert}
           severity={alert?.type}

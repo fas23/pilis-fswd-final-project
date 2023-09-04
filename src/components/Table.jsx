@@ -1,4 +1,3 @@
-import * as React from 'react'
 import MUITable from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -6,21 +5,52 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { IconButton } from '@mui/material'
+import { Alert, IconButton, Snackbar } from '@mui/material'
 import { PencilIcon, TrashIcon } from './Icons'
 import { formatTime } from '../utils/formatTime'
+import { useNavigate } from 'react-router-dom'
+import dayjs from 'dayjs'
+import { useState } from 'react'
+import { deleteCinemaShow } from '../services/deleteCinemaShow'
 
 export function Table (props) {
-  const { rows } = props
+  const { rows, movie, isLoading, setIsLoading } = props
+
+  const navigate = useNavigate()
+
+  const [cinemaShows, setCinemaShows] = useState(rows)
+  const [alert, setAlert] = useState(null)
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
+  }
 
   const handleEdit = (id) => {
     const foundCinemaShow = rows.find(row => row.id === id)
-    console.log({ foundCinemaShow })
+    navigate('/upload-cinemashow', { state: { cinemaShow: foundCinemaShow, movie } })
   }
 
   const handleDelete = (id) => {
     const foundCinemaShow = rows.find(row => row.id === id)
-    console.log({ foundCinemaShow })
+
+    deleteCinemaShow(foundCinemaShow.id)
+      .then(() => {
+        const newCinemaShows = cinemaShows.filter(cinemaShow => cinemaShow.id !== foundCinemaShow.id)
+        setCinemaShows(newCinemaShows)
+        setAlert({
+          open: true,
+          type: 'success',
+          message: 'Funcion eliminada correctamente'
+        })
+      })
+      .catch(() => {
+        setAlert({
+          open: true,
+          type: 'error',
+          message: 'La funcion no pudo ser eliminada. Ya contiene tickets vendidos'
+        })
+      })
+      .finally(() => setIsLoading(false))
   }
 
   return (
@@ -38,21 +68,22 @@ export function Table (props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {cinemaShows.map((cinemaShow) => (
             <TableRow
-              key={row.id}
+              key={cinemaShow.id}
             >
               <TableCell component='th' scope='row'>
-                {row.room.name}
+                {cinemaShow.room.name}
               </TableCell>
-              <TableCell align='right'>{row.date}</TableCell>
-              <TableCell align='right'>{formatTime(row.hour, row.minutes)}</TableCell>
-              <TableCell align='right'>$ {row.price}</TableCell>
-              <TableCell align='right'>{row.capacityAvailable}</TableCell>
+              <TableCell align='right'>{dayjs(cinemaShow.date).format('DD/MM/YYYY')}</TableCell>
+              <TableCell align='right'>{formatTime(cinemaShow.hour, cinemaShow.minutes)}</TableCell>
+              <TableCell align='right'>$ {cinemaShow.price}</TableCell>
+              <TableCell align='right'>{cinemaShow.capacityAvailable}</TableCell>
               <TableCell align='right'>
                 <IconButton
                   aria-label='editar'
-                  onClick={() => handleEdit(row.id)}
+                  disabled={isLoading}
+                  onClick={() => handleEdit(cinemaShow.id)}
                 >
                   <PencilIcon />
                 </IconButton>
@@ -60,7 +91,8 @@ export function Table (props) {
               <TableCell align='right'>
                 <IconButton
                   aria-label='editar'
-                  onClick={() => handleDelete(row.id)}
+                  disabled={isLoading}
+                  onClick={() => handleDelete(cinemaShow.id)}
                 >
                   <TrashIcon />
                 </IconButton>
@@ -69,6 +101,15 @@ export function Table (props) {
           ))}
         </TableBody>
       </MUITable>
+      <Snackbar open={alert?.open}>
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alert?.type}
+          sx={{ width: '100%' }}
+        >
+          {alert?.message}
+        </Alert>
+      </Snackbar>
     </TableContainer>
   )
 }

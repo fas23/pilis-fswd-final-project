@@ -10,6 +10,9 @@ import { DateTimePickerValue } from '../../components/DateTimePickerValue'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { uploadCinemaShow } from '../../services/uploadCinemaShow'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import { updateCinemaShow } from '../../services/updateCinemaShow'
 
 const cinemaShowSchema = yup.object({
   price: yup.string()
@@ -55,16 +58,19 @@ export const UploadCinemaShow = () => {
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(cinemaShowSchema),
     defaultValues: {
-      price: 10,
-      hall: '',
-      dateTime: ''
+      price: location.state.cinemaShow !== undefined ? location.state.cinemaShow.price : 10,
+      hall: location.state.cinemaShow !== undefined ? location.state.cinemaShow.room.id : '',
+      dateTime: location.state.cinemaShow !== undefined ? dayjs(`${location.state.cinemaShow.date} ${location.state.cinemaShow.hour}:${location.state.cinemaShow.minutes}`).format('YYYY/MM/DD HH:mm') : ''
     },
     mode: 'onChange'
   })
 
   const onSubmit = data => {
+    dayjs.extend(utc)
+    dayjs.extend(timezone)
     const { price, hall, dateTime } = data
-    const hour = dayjs(dateTime).format('HH')
+
+    const hour = dayjs(dateTime).tz('America/Argentina/Buenos_Aires').format('HH')
     const minutes = dayjs(dateTime).format('mm')
     const formattedDate = dayjs(dateTime).format('YYYY-MM-DD')
 
@@ -78,13 +84,27 @@ export const UploadCinemaShow = () => {
     }
 
     setIsLoading(true)
-    uploadCinemaShow(formattedData)
-      .then((data) => {
-        console.log({ data })
-        navigate('/available-movies')
-      })
-      .catch(error => { console.log({ error }) })
-      .finally(() => setIsLoading(false))
+
+    if (location.state.cinemaShow !== null) {
+      console.log({ formattedData })
+      const id = location.state.cinemaShow.id
+
+      updateCinemaShow(id, formattedData)
+        .then((data) => {
+          console.log({ data })
+          navigate('/available-movies')
+        })
+        .catch(error => { console.log({ error }) })
+        .finally(() => setIsLoading(false))
+    } else {
+      uploadCinemaShow(formattedData)
+        .then((data) => {
+          console.log({ data })
+          navigate('/available-movies')
+        })
+        .catch(error => { console.log({ error }) })
+        .finally(() => setIsLoading(false))
+    }
   }
 
   return (
