@@ -1,12 +1,18 @@
+/* eslint-disable react/jsx-closing-tag-location */
 import { Backdrop, Box, Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Container, Grid, Stack, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { moviesWithoutCinemaShows } from '../../services/moviesWithoutCinemaShows'
-import { ArrowsRightLeftIcon, PencilIcon, SearchIcon, TrashIcon } from '../../components/Icons'
+import { ArrowsRightLeftIcon, PencilIcon, PlusIcon, SearchIcon, TrashIcon, TvIcon } from '../../components/Icons'
+import { movie } from '../../services/movie'
 
 export const AvailableMovies = () => {
   const [movies, setMovies] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [value, setValue] = useState('')
+  const [toggle, setToggle] = useState(false)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     moviesWithoutCinemaShows()
@@ -18,6 +24,30 @@ export const AvailableMovies = () => {
       .finally(() => setIsLoading(false))
   }, [])
 
+  const handleChangeMovies = () => {
+    setIsLoading(true)
+    if (!toggle) {
+      movie()
+        .then(data => {
+          console.log({ data })
+          const { response } = data
+          setMovies(response)
+          setToggle(true)
+        })
+        .catch(err => console.log(err))
+        .finally(() => setIsLoading(false))
+    } else {
+      moviesWithoutCinemaShows()
+        .then(({ data }) => {
+          const { response } = data
+          setMovies(response)
+          setToggle(false)
+        })
+        .catch(err => console.log(err))
+        .finally(() => setIsLoading(false))
+    }
+  }
+
   const handleInputChange = (e) => {
     setValue(e.target.value)
   }
@@ -28,6 +58,36 @@ export const AvailableMovies = () => {
 
   const handleReset = () => {
     setValue('')
+  }
+
+  const handleAddNewCinemaShow = (movie) => {
+    const { id, title, image: { url } } = movie
+
+    navigate('/upload-cinemashow', {
+      state: {
+        movie: {
+          movieId: id,
+          imageUrl: url,
+          title
+        }
+      }
+    })
+  }
+
+  const handleShowCinemaShows = (movie) => {
+    const { id, title, cinemaShows, image: { url } } = movie
+    console.log({ cinemaShows })
+
+    navigate('/cinemashows', {
+      state: {
+        movie: {
+          movieId: id,
+          imageUrl: url,
+          title,
+          cinemaShows
+        }
+      }
+    })
   }
 
   return (
@@ -61,15 +121,29 @@ export const AvailableMovies = () => {
             )
           }}
         />
-
-        <Button
-          variant='outlined'
-          startIcon={<ArrowsRightLeftIcon />}
-          sx={{ textTransform: 'initial', fontSize: '1rem' }}
-          // onClick={handleSelectItem}
-        >
-          Cambiar a películas con funciones
-        </Button>
+        {
+        toggle
+          ? (
+            <Button
+              variant='outlined'
+              startIcon={<ArrowsRightLeftIcon />}
+              sx={{ textTransform: 'initial', fontSize: '1rem' }}
+              onClick={handleChangeMovies}
+            >
+              Cambiar a películas sin funciones
+            </Button>
+            )
+          : (
+            <Button
+              variant='outlined'
+              startIcon={<ArrowsRightLeftIcon />}
+              sx={{ textTransform: 'initial', fontSize: '1rem' }}
+              onClick={handleChangeMovies}
+            >
+              Cambiar a películas con funciones
+            </Button>
+            )
+        }
       </Stack>
 
       <Grid container spacing={2}>
@@ -111,20 +185,39 @@ export const AvailableMovies = () => {
                 title={movie.title}
               />
               <CardContent>
-                <Typography variant='h5' component='h5'>
+                <Typography variant='h5' component='h5' sx={{ height: '50px' }}>
                   {movie.title}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+              <CardActions sx={{ display: 'flex', flexDirection: 'column' }}>
+                {movie.cinemaShows.length > 0
+                  ? (
+                    <Button
+                      variant='text' startIcon={<TvIcon />}
+                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                      onClick={() => handleShowCinemaShows(movie)}
+                    >
+                      Ver funciones
+                    </Button>
+                    )
+                  : (
+                    <Button
+                      variant='text' startIcon={<PlusIcon />}
+                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                      onClick={() => handleAddNewCinemaShow(movie)}
+                    >
+                      Agregar función
+                    </Button>
+                    )}
                 <Button
                   variant='text' startIcon={<PencilIcon />}
-                  sx={{ textTransform: 'initial', fontSize: '1rem' }}
+                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
                 >
                   Editar
                 </Button>
                 <Button
                   variant='text' startIcon={<TrashIcon />}
-                  sx={{ textTransform: 'initial', fontSize: '1rem' }}
+                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
                 >
                   Eliminar
                 </Button>
