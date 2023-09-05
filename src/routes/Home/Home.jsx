@@ -25,7 +25,7 @@ const Home = () => {
         <Grid item xs={12} sm={8}>
           <Carousel />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} sx={{ display: { xs: 'none', md: 'initial' } }}>
           <Trailers />
         </Grid>
       </Grid>
