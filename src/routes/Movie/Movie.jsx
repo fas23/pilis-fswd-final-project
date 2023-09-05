@@ -24,7 +24,8 @@ const Movie = () => {
   const { listings } = useContext(MovieContext)
   const { cart, setCart } = useContext(CartContext)
   const [movies] = listings.filter((item) => item.id === Number(id))
-  console.log('list:', movies)
+  const { cinemaShows } = movies
+  console.log('cineSowns:', cinemaShows)
   const navigate = useNavigate()
 
   // Lista de salas diponibles por pelicula   const uniqueRooms=['Estelar','Solaz']
@@ -44,9 +45,10 @@ const Movie = () => {
 
   const handleChangeFecha = (event) => {
     setFechasSelected(event.target.value)
-    setHoras(movies.cinemaShows.filter((item) => item.date == event.target.value && item.room.name === roomSelected).map((item) => item.hour))
+    setHoras(movies.cinemaShows.filter((item) => item.date === event.target.value && item.room.name === roomSelected).map((item) => item.hour))
   }
 
+  console.log('horas->' + horas)
   const [horaSelected, setHoraSelected] = useState('a')
   console.log('campturadoHora', horaSelected)
 
@@ -55,7 +57,7 @@ const Movie = () => {
   }
 
   /* const[available, setAvailable]=useState(' ') */
-  const [available] = movies.cinemaShows.filter((item) => item.hour === horaSelected).map((item) => item.capacityAvailable)
+  const [available] = movies.cinemaShows.filter((item) => item.hour === Number(horaSelected) && item.date === fechaSelected).map((item) => item.capacityAvailable)
   console.log('cantidadDisponible', available)
   // precio por rooms
   const [priceOn] = movies.cinemaShows.filter((item) => item.room.name === roomSelected).map((item) => item.price)
@@ -65,9 +67,9 @@ const Movie = () => {
   // control de cantidad de boletos segun disponibilidad
 
   // precio total
-  const totalPrice = quantityAsNumber == 0 ? priceOn : priceOn * quantityAsNumber
+  const totalPrice = quantityAsNumber === 0 ? priceOn : priceOn * quantityAsNumber
   // id de cinemaShow
-  const [cinemaShowId] = movies.cinemaShows.filter((item) => item.date === fechaSelected && item.room.name == roomSelected).map((item) => item.id)
+  const [cinemaShowId] = movies.cinemaShows.filter((item) => item.date === fechaSelected && item.room.name === roomSelected && item.hour === Number(horaSelected)).map((item) => item.id)
   console.log('id', cinemaShowId)
 
   const { register, handleSubmit, formState: { errors } } = useForm()
@@ -273,6 +275,7 @@ const Movie = () => {
               )
           }
             />
+            {errors.quantity && <p style={{ color: 'red' }}>{errors.quantity?.message}</p>}
             <br />
             <Typography level='body-xs'><b>Subtotal: $</b> {totalPrice}</Typography>
             <br />
