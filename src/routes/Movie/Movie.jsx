@@ -98,7 +98,7 @@ const Movie = () => {
         <h1>{movies.title}</h1>
       </Sheet>
 
-      <Grid container spacing={2} sx={{ flexGrow: 1, padding: '4rem' }}>
+      <Grid container spacing={2} sx={{ flexGrow: 1, m: 1 }}>
         <Grid item='true' sm={12} md={6}>
           <CardMedia component='iframe' src={movies.trailerUrl.replace('.be', 'be.com/embed')} allow='autoPlay' sx={{ display: { xs: 'none', md: 'initial' }, height: '100%' }} />
           <Grid container spacing={2} sx={{ flexGrow: 1 }}>
@@ -108,7 +108,7 @@ const Movie = () => {
                 src={movies.image.url}
                 loading='lazy'
                 sx={{
-                  width: '200px',
+                  width: '300px',
                   height: '300px',
                   objectFit: 'cover',
                   objectPosition: 'center',
