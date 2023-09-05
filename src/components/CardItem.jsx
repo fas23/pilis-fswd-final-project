@@ -1,8 +1,8 @@
-import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Link, Stack, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Stack, Typography } from '@mui/material'
 import { ArrowsRightLeftIcon, ClockIcon, TicketIcon } from './Icons'
 import { useState } from 'react'
 import { formatLongDate, formatTime } from '../utils'
-
+import { Link } from 'react-router-dom'
 export const CardItem = (props) => {
   const { item } = props
   const [selectedItem, setSelectedItem] = useState(item.details[0])
@@ -18,7 +18,7 @@ export const CardItem = (props) => {
   }
 
   return (
-    <Grid key={item.movieId} item xs={8} lg={3} sx={{ padding: '15px' }}>
+    <Grid key={item.movieId} item xs={12} sm={4} lg={3} sx={{ padding: '15px' }}>
       <Card variant='outlined'>
         <Box
           component='img'
@@ -62,12 +62,16 @@ export const CardItem = (props) => {
             Cambiar función
           </Button>}
         <CardActions sx={{ padding: 0 }}>
-          <Link className='btn-see-more' to='/'>
+          {/* <Link className='btn-see-more' to='/'> */}
 
-            <Button variant='contained' sx={{ width: '100%', borderRadius: 0 }}>
-              MOSTRAR CÓDIGO QR
-            </Button>
-          </Link>
+          <Button
+            variant='contained' sx={{ width: '100%', borderRadius: 0 }}
+            component={Link}
+            to='/'
+          >
+            MOSTRAR CÓDIGO QR
+          </Button>
+          {/* </Link> */}
         </CardActions>
       </Card>
     </Grid>

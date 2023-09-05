@@ -1,7 +1,7 @@
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import CarouselMUI from 'react-material-ui-carousel'
-import { MovieContext } from '../context/MovieContext';
-import { useContext} from 'react';
+import { MovieContext } from '../context/MovieContext'
+import { useContext } from 'react'
 
 function Item (props) {
   return (
@@ -16,23 +16,30 @@ function Item (props) {
         height: '750px',
         mb: '2rem',
         border: '1px solid transparent',
-        borderRadius:'5px',
+        borderRadius: '5px'
       }}
     >
-      <h2>{props.item.title}</h2>
-      <p>{props.item.description}</p>
-      <Button>
+      <Box sx={{ display: 'flex', flexDirection: 'column', m: 1 }}>
+        <Typography variant='h4' sx={{ color: 'white' }} textAlign='center'>
+          {props.item.title}
+        </Typography>
+        <Typography component='p' sx={{ color: 'white' }}>
+          {props.item.description}
+        </Typography>
+        {/* <p>{props.item.description}</p> */}
+      </Box>
+      {/* <Button>
         Check it out!
-      </Button>
+      </Button> */}
     </Box>
   )
 }
 
 export const Carousel = () => {
-  const { listings} = useContext(MovieContext);
+  const { listings } = useContext(MovieContext)
   const items = listings
   return (
-    <CarouselMUI sx={{ width: '100%', height: '800px'}}>
+    <CarouselMUI sx={{ width: '100%', height: '800px' }}>
       {
         items.map((item) => <Item key={item.id} item={item} />)
       }

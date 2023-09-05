@@ -26,7 +26,7 @@ const Movie = () => {
   const [movies] = listings.filter((item) => item.id === Number(id))
   console.log('list:', movies)
   const navigate = useNavigate()
-  
+
   // Lista de salas diponibles por pelicula   const uniqueRooms=['Estelar','Solaz']
   const [roomSelected, setRoomSelected] = useState('')
 
@@ -66,29 +66,29 @@ const Movie = () => {
 
   // precio total
   const totalPrice = quantityAsNumber == 0 ? priceOn : priceOn * quantityAsNumber
-  //id de cinemaShow
-  const [cinemaShowId]= movies.cinemaShows.filter((item) => item.date === fechaSelected && item.room.name==roomSelected).map((item) => item.id);
-  console.log('id',cinemaShowId)
+  // id de cinemaShow
+  const [cinemaShowId] = movies.cinemaShows.filter((item) => item.date === fechaSelected && item.room.name == roomSelected).map((item) => item.id)
+  console.log('id', cinemaShowId)
 
   const { register, handleSubmit, formState: { errors } } = useForm()
   const onSubmit = (data) => {
-    console.log('datoStorage', data);
-    
+    console.log('datoStorage', data)
+
     const moviesCart = {
-      id:crypto.randomUUID(),
-      cinemaShowId:cinemaShowId,
-      image:movies.image.url,
+      id: crypto.randomUUID(),
+      cinemaShowId,
+      image: movies.image.url,
       room: roomSelected,
-      name:movies.title,
+      name: movies.title,
       date: data.date,
       hour: data.hour,
       quantity: data.quantity,
-      price:priceOn,
-      total:totalPrice
+      price: priceOn,
+      total: totalPrice
     }
     window.localStorage.setItem('addCart', JSON.stringify([...cart, moviesCart]))
     setCart([...cart, moviesCart])
-    
+
     navigate('/cart')
   }
 
@@ -99,8 +99,8 @@ const Movie = () => {
       </Sheet>
 
       <Grid container spacing={2} sx={{ flexGrow: 1, padding: '4rem' }}>
-        <Grid item='true' xs={6}>
-          <CardMedia component='iframe' src={movies.trailerUrl.replace('.be', 'be.com/embed')} allow='autoPlay' sx={{ height: '100%' }} />
+        <Grid item='true' sm={12} md={6}>
+          <CardMedia component='iframe' src={movies.trailerUrl.replace('.be', 'be.com/embed')} allow='autoPlay' sx={{ display: { xs: 'none', md: 'initial' }, height: '100%' }} />
           <Grid container spacing={2} sx={{ flexGrow: 1 }}>
             <Grid item='true' xs={6}>
               <Box
@@ -139,7 +139,10 @@ const Movie = () => {
             </Button>
           </Link>
         </Grid>
-        <Grid item='true' xs={6}>
+        <Grid item='true' sm={12} md={6}>
+          <Typography variant='h6'>
+            ELEGIR PELÍCULA POR:
+          </Typography>
           {/* {console.log(movies.cinemaShows[0].room.name)} */}
           <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -158,7 +161,7 @@ const Movie = () => {
               overlay
               name='platform1'
               sx={{
-                flexDirection: 'row',
+                flexDirection: { sx: 'column', sm: 'row' },
                 gap: 2,
                 [`& .${radioClasses.checked}`]: {
                   [`& .${radioClasses.action}`]: {
@@ -211,7 +214,7 @@ const Movie = () => {
               overlay
               name='platform2'
               sx={{
-                flexDirection: 'row',
+                flexDirection: { xs: 'column', sm: 'row' },
                 gap: 2,
                 [`& .${radioClasses.checked}`]: {
                   [`& .${radioClasses.action}`]: {

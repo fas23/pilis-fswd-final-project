@@ -106,28 +106,29 @@ const Cart = () => {
             borderAxis='bothBetween'
             stripe='odd'
             hoverRow
-            sx={{
+            // sx={{
 
-              '& tr > *:first-child': {
-                position: 'sticky',
-                left: 0,
-                boxShadow: '1px 0 var(--TableCell-borderColor)',
-                bgcolor: 'background.surface'
-              },
-              '& tr > *:last-child': {
-                position: 'sticky',
-                right: 0,
-                bgcolor: 'var(--TableCell-headBackground)'
-              }
-            }}
+            //   '& tr > *:first-child': {
+            //     position: 'sticky',
+            //     left: 0,
+            //     boxShadow: '1px 0 var(--TableCell-borderColor)',
+            //     bgcolor: 'background.surface'
+            //   },
+            //   '& tr > *:last-child': {
+            //     position: 'sticky',
+            //     right: 0,
+            //     bgcolor: 'var(--TableCell-headBackground)'
+            //   }
+            // }}
           >
             <thead>
               <tr>
                 <th style={{ width: 200 }} />
+                {/* <th style={{ width: 200 }}>Película</th> */}
                 <th style={{ width: 200 }}>Película</th>
-                <th style={{ width: 200 }}>Precio</th>
+                <th style={{ width: 100 }}>Precio</th>
                 <th style={{ width: 100 }}>Cantidad</th>
-                <th style={{ width: 200 }}>Total</th>
+                <th style={{ width: 100 }}>Total</th>
                 <th
                   aria-label='last'
                   style={{ width: 'var(--Table-lastColumnWidth)' }}
@@ -143,7 +144,11 @@ const Cart = () => {
                       src={row.image}
                       loading='lazy'
                       sx={{
-                        width: '200px',
+                        // width: '200px',
+                        width: {
+                          sx: 100,
+                          lg: 250
+                        },
                         height: '300px',
                         objectFit: 'cover',
                         objectPosition: 'center',

@@ -51,7 +51,7 @@ export const Navigation = () => {
               component='img'
               loading='lazy'
               src={logo}
-              sx={{ width: '30px', height: '30px' }}
+              sx={{ width: '30px', height: '30px', display: { xs: 'none', sm: 'initial' } }}
             />
             <Typography
               variant='h6'
@@ -61,7 +61,7 @@ export const Navigation = () => {
               // href='/'
               sx={{
                 mr: 2,
-                display: { xs: 'none', md: 'flex' },
+                display: { md: 'flex' },
                 fontWeight: 700,
                 letterSpacing: '.1rem',
                 color: 'inherit',
