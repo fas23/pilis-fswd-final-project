@@ -11,14 +11,12 @@ const Listings = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => {
-      movie()
-        .then((data) => {
-          setListings(data.response)
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setIsLoading(true))
-    }, 5000)
+    movie()
+      .then((data) => {
+        setListings(data.response)
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(true))
   }, [])
 
   return (
