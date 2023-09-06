@@ -1,7 +1,8 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import CarouselMUI from 'react-material-ui-carousel'
 import { MovieContext } from '../context/MovieContext'
 import { useContext } from 'react'
+import SkeletonCarrousel from './Skeleton/SkeletonCarrousel'
 
 function Item (props) {
   return (
@@ -40,9 +41,9 @@ export const Carousel = () => {
   const items = listings
   return (
     <CarouselMUI sx={{ width: '100%', height: '800px' }}>
-      {
-        items.map((item) => <Item key={item.id} item={item} />)
-      }
+      {items.length === 0
+        ? <SkeletonCarrousel />
+        : items.map((item) => <Item key={item.id} item={item} />)}
     </CarouselMUI>
   )
 }
