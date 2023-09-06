@@ -9,7 +9,7 @@ import Autocomplete from '@mui/joy/Autocomplete'
 import Input from '@mui/joy/Input'
 import Button from '@mui/joy/Button'
 import Sheet from '@mui/joy/Sheet'
-import { CardMedia, Typography } from '@mui/material'
+import { CardMedia, Select, Typography } from '@mui/material'
 import Tabs from '@mui/joy/Tabs'
 import TabList from '@mui/joy/TabList'
 import Tab from '@mui/joy/Tab'
@@ -72,7 +72,7 @@ const Movie = () => {
   const [cinemaShowId] = movies.cinemaShows.filter((item) => item.date === fechaSelected && item.room.name === roomSelected && item.hour === Number(horaSelected)).map((item) => item.id)
   console.log('id', cinemaShowId)
 
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, control, handleSubmit, formState: { errors } } = useForm()
   const onSubmit = (data) => {
     console.log('datoStorage', data)
 
@@ -147,16 +147,28 @@ const Movie = () => {
           </Typography>
           {/* {console.log(movies.cinemaShows[0].room.name)} */}
           <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              control={control}
+              name='room'
+              render={({ field }) =>
+                <Autocomplete
+                  {...field}
+                  placeholder='Seleccione la Sala'
+                  options={uniqueRooms}
+                  onChange={handleSelected}
+                  style={{ width: 300 }}
+                />}
+            />
 
-            <Autocomplete
+            {/* <Autocomplete
               placeholder='Seleccione la animación'
-              // value={value}
+               value={value}
               options={uniqueRooms}
               onChange={handleSelected}
               style={{ width: 300 }}
-              /* {...register('animation', { required: 'Debe seleccionar una animación' }
-              )} */
-            />
+               {...register('animation', { required: 'Debe seleccionar una animación' }
+              )}
+            /> */}
             <br />
             <RadioGroup
               aria-label='platform1'
