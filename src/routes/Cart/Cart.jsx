@@ -163,7 +163,7 @@ const Cart = () => {
                   <td>$ {row.total}</td>
                   <td>
                     <Box sx={{ display: 'flex', gap: 1 }}>
-                      <Button size='sm' variant='soft' color='danger' onClick={() => handleDelete(row.id)}>
+                      <Button size='sm' variant='soft' color='danger' sx={{width:'100%'}} onClick={() => handleDelete(row.id)}>
                         Borrar
                       </Button>
                     </Box>

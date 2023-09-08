@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { MovieContext } from '../../context/MovieContext'
 import { CartContext } from '../../context/CartContext'
 import { useForm, Controller } from 'react-hook-form'
+import { CartIcon } from '../../components/Icons'
 import Grid from '@mui/joy/Grid'
 import Box from '@mui/joy/Box'
 import Autocomplete from '@mui/joy/Autocomplete'
@@ -23,7 +24,7 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded'
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Paper from '@mui/material/Paper';
-
+import { formatLongDate, formatTime } from '../../utils'
 
 
 const Movie = () => {
@@ -135,7 +136,7 @@ const Movie = () => {
                 src={movies.image.url}
                 loading='lazy'
                 sx={{
-                  width: '300px',
+                  width: '100%',
                   height: '300px',
                   objectFit: 'cover',
                   objectPosition: 'center',
@@ -161,7 +162,7 @@ const Movie = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item sm={12} md={6}>
+        <Grid item='true' sm={12} md={6}>
           <Typography variant='h6'>
             ELEGIR PELÍCULA POR:
           </Typography>
@@ -240,7 +241,7 @@ const Movie = () => {
                       
                       {...register('date', { required: 'Debe seleccionar una fecha' })}
                     /> 
-                     <FormLabel htmlFor={value}>{value}</FormLabel> 
+                     <FormLabel htmlFor={value}>{ formatLongDate(value)}</FormLabel> 
                   </Sheet>
 
                 ))}
@@ -303,7 +304,7 @@ const Movie = () => {
                       checkedIcon={<CheckCircleRoundedIcon />}
                       {...register('hour', { required: 'Debe seleccionar una hora' })}
                     />
-                    <FormLabel htmlFor={value}>{value} Hrs</FormLabel>
+                    <FormLabel htmlFor={value}> {formatTime(value, '00')}</FormLabel>
                   </Sheet>
                 ))}
               </RadioGroup>
@@ -319,17 +320,15 @@ const Movie = () => {
               min='1'
               max={available}
               name='quantity'
-              onInput={e => { setQuantity(e.target.value); }}
+              onInput={e => { setQuantity(e.target.value) }}
               sx={{ width: 300 }}
-              {...register('quantity', { required: 'Debe ingresar una cantidad' }
-              )
-              }
+              {...register('quantity', { required: 'Debe ingresar una cantidad' })}
             />
             <p>{errors.quantity?.message}</p>
 
             </Grid>
             
-            <Grid container item>
+            <Grid container item='true'>
               <Typography level='body-xs'variant='h6' sx={{marginBottom:'5%', width:'100%', textAlign:'end', marginRight:'2em'}}>Subtotal: $ {totalPrice}</Typography>
               <Tooltip >
                 <Link className='btn-back' to='/'>
@@ -342,11 +341,12 @@ const Movie = () => {
                 </Link>
               </Tooltip>
               <Tooltip>
+                
                 <Button
                   type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
                   sx={{ ml: 'auto', width: '200px', alignSelf: 'flex-end', fontWeight: 600 }}
+                  startIcon={ <CartIcon/> }
                 >
-                  {/* <img src={filter} alt="" style={{width:'30px'}}/> */}
                   Añadir al carrito
                 </Button>
               </Tooltip>
