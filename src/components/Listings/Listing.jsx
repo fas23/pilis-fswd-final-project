@@ -45,8 +45,8 @@ const Listing = ({ id, name, image, hour, price }) => {
         <CardActions sx={{ padding: 0 }}>
           {/* <ConfirmationLogin id={id} /> */}
           <Link className='btn-see-more' to={`/listing/${id}`}>
-            <Button
-              variant='contained' startIcon={<TicketIcon />} sx={{ width: '100%', borderRadius: 0 }}
+            <Button sx={{ width: '100%', borderRadius: 0 }}
+              variant='contained'  startIcon={<TicketIcon />} 
             >
               COMPRAR TICKETS
             </Button>

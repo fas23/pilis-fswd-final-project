@@ -125,9 +125,12 @@ const Cart = () => {
               <tr>
                 <th style={{ width: 200 }} />
                 <th style={{ width: 200 }}>Película</th>
-                <th style={{ width: 200 }}>Precio</th>
+                <th style={{ width: 100 }}>Sala</th>
+                <th style={{ width: 100 }}>Fecha</th>
+                <th style={{ width: 100 }}>Hora</th>
+                <th style={{ width: 100 }}>Precio</th>
                 <th style={{ width: 100 }}>Cantidad</th>
-                <th style={{ width: 200 }}>Total</th>
+                <th style={{ width: 100 }}>Total</th>
                 <th
                   aria-label='last'
                   style={{ width: 'var(--Table-lastColumnWidth)' }}
@@ -143,22 +146,24 @@ const Cart = () => {
                       src={row.image}
                       loading='lazy'
                       sx={{
-                        width: '200px',
+                        width: '100%',
                         height: '300px',
                         objectFit: 'cover',
-                        objectPosition: 'center',
-                        paddingTop: '20px'
+                        objectPosition: 'center'
                       }}
                     />
                   </td>
                   <td>{row.name}</td>
+                  <td>{row.room}</td>
+                  <td>{row.date}</td>
+                  <td>{row.hour} Hrs</td>
                   <td>$ {row.price}</td>
                   <td>{row.quantity}</td>
                   <td>$ {row.total}</td>
                   <td>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button size='sm' variant='soft' color='danger' onClick={() => handleDelete(row.id)}>
-                        Delete
+                        Borrar
                       </Button>
                     </Box>
                   </td>
@@ -171,13 +176,14 @@ const Cart = () => {
           <Typography level='h2' sx={{ color: 'black', paddingRight: '2rem', paddingTop: '2rem' }}>Total: $ {totalPrices}</Typography>
           <br />
           {cart.length !== 0 &&
-          // <Button
-          //   type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
-          //   sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}
-          //   onClick={handlePayment}
-          // >Pagar
-          // </Button>
-            <ConfirmationLogin payment={handlePayment} />}
+          (<Button
+            type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
+             sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}
+             onClick={handlePayment}
+           >Pagar</Button>)
+
+            //<ConfirmationLogin payment={handlePayment} />
+            }
 
         </Sheet>
       </Box>

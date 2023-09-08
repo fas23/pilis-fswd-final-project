@@ -1,7 +1,8 @@
 import { Box, Button, Card, CardActions, CardContent, Divider, Grid, Link, Stack, Typography } from '@mui/material'
-import { ArrowsRightLeftIcon, ClockIcon, TicketIcon } from './Icons'
+import { ArrowsRightLeftIcon, ClockIcon, TicketIcon, QresIcon } from './Icons'
 import { useState } from 'react'
 import { formatLongDate, formatTime } from '../utils'
+import Modal from '@mui/material/Modal';
 
 export const CardItem = (props) => {
   const { item } = props
@@ -16,6 +17,9 @@ export const CardItem = (props) => {
       return item.details[indexFound + 1]
     })
   }
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <Grid key={item.movieId} item xs={8} lg={3} sx={{ padding: '15px' }}>
@@ -62,12 +66,46 @@ export const CardItem = (props) => {
             Cambiar función
           </Button>}
         <CardActions sx={{ padding: 0 }}>
-          <Link className='btn-see-more' to='/'>
-
-            <Button variant='contained' sx={{ width: '100%', borderRadius: 0 }}>
+            <Button variant='contained' sx={{ width: '100%', borderRadius: 0 }} startIcon={< QresIcon />} onClick={handleOpen}> 
               MOSTRAR CÓDIGO QR
             </Button>
-          </Link>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={{position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    p: 4}}>
+                <Typography id="modal-modal-title" variant="h6" component="h2" 
+                sx={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign:'center' }} >
+                  BOLETO
+                </Typography>
+                  <Box
+                    component='img'
+                    src={selectedItem.qrCode}
+                    loading='lazy'
+                    sx={{
+                      width: '100%',
+                      height: '320px',
+                      objectFit: 'cover',
+                      objectPosition: 'center'
+                    }}
+                  />
+                  <Box textAlign='center'>
+
+                    <Button size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands' 
+                    sx={{ width: '200px', alignSelf: 'center', fontWeight: 400, backgroundColor:'#CCCCCCC', borderRadius:'10px' }} 
+                    onClick={handleClose} >Cerrar</Button>
+                  </Box>
+              </Box>
+            </Modal>
         </CardActions>
       </Card>
     </Grid>
