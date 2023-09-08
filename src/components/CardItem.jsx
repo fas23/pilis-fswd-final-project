@@ -22,7 +22,7 @@ export const CardItem = (props) => {
   const handleClose = () => setOpen(false);
 
   return (
-    <Grid key={item.movieId} item xs={8} lg={3} sx={{ padding: '15px' }}>
+    <Grid key={item.movieId} item xs={12} sm={4} lg={3} sx={{ padding: '15px' }}>
       <Card variant='outlined'>
         <Box
           component='img'

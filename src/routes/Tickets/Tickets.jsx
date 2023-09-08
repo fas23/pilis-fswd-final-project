@@ -35,7 +35,7 @@ const Tickets = () => {
 
   return (
     <>
-      <Grid container sx={{ width: '100%', objectPosition: 'center', margin: '20px' }}>
+      <Grid container sx={{ width: '100%', objectPosition: 'center' }}>
         {tickets.map((item) => (
           <CardItem item={item} key={item.movieId} />
         ))}

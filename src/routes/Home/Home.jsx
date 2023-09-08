@@ -22,10 +22,10 @@ const Home = () => {
     >
 
       <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-        <Grid item xs={8}>
+        <Grid item xs={12} sm={8}>
           <Carousel />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4} sx={{ display: { xs: 'none', md: 'initial' } }}>
           <Trailers />
         </Grid>
       </Grid>
@@ -39,10 +39,10 @@ const Home = () => {
       <Sheet color='neutral' sx={{ p: 1, textAlign: 'center' }}>
         <h2>En cartelera</h2>
       </Sheet>
-      <div className='filter'>
+      {/* <div className='filter'>
         <Filter />
-      </div>
-
+      </div> */}
+      {/* <Filter /> */}
       <Listings />
     </Box>
 

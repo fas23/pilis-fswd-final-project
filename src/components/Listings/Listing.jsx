@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const Listing = ({ id, name, image, hour, price }) => {
   return (
-    <Grid item xs={8} lg={3}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
       <Card variant='outlined'>
         <Box
           component='img'
@@ -44,13 +44,14 @@ const Listing = ({ id, name, image, hour, price }) => {
         </CardContent>
         <CardActions sx={{ padding: 0 }}>
           {/* <ConfirmationLogin id={id} /> */}
-          <Link className='btn-see-more' to={`/listing/${id}`}>
-            <Button sx={{ width: '100%', borderRadius: 0 }}
-              variant='contained'  startIcon={<TicketIcon />} 
-            >
-              COMPRAR TICKETS
-            </Button>
-          </Link>
+          {/* <Link className='btn-see-more' to={`/listing/${id}`}> */}
+          <Button
+            variant='contained' startIcon={<TicketIcon />} sx={{ width: '100%', borderRadius: 0 }}
+            component={Link} to={`/listing/${id}`}
+          >
+            COMPRAR TICKETS
+          </Button>
+          {/* </Link> */}
         </CardActions>
       </Card>
     </Grid>
