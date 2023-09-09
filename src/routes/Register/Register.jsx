@@ -1,15 +1,15 @@
-import { useState, useContext } from 'react'
+import * as yup from 'yup'
+import { Alert, Box, Button, Container, IconButton, InputAdornment, Snackbar, Stack, Typography } from '@mui/material'
+import { ControlledInput } from '../../components/ControlledInput'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Box, Button, Container, IconButton, InputAdornment, Snackbar, Stack, Typography } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
-import * as yup from 'yup'
-import { ControlledInput } from '../../components/ControlledInput'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../../services/login'
-import { UserContext } from '../../context/UserContext'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import { register } from '../../services/register'
 
-const loginSchema = yup.object({
+const VALID_PASSWORD_REGEX = /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$/
+const registerSchema = yup.object({
   email: yup.string()
     .email('El correo electrónico no es válido')
     .required('El correo electrónico es obligatorio')
@@ -20,10 +20,13 @@ const loginSchema = yup.object({
     ),
   password: yup.string()
     .required('La contraseña es obligatoria')
+    .matches(VALID_PASSWORD_REGEX,
+      'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial'),
+  username: yup.string()
+    .required('El nombre de usuario es requerido')
 }).required()
 
-export function Login () {
-  const { setCurrentUser } = useContext(UserContext)
+const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [alert, setAlert] = useState(null)
@@ -39,9 +42,8 @@ export function Login () {
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
   }
-
   const { control, handleSubmit } = useForm({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(registerSchema),
     defaultValues: {
       email: '',
       password: ''
@@ -50,25 +52,20 @@ export function Login () {
   })
 
   const onSubmit = data => {
+    console.log({ data })
     setIsLoading(true)
-    login(data)
+    register(data)
       .then((data) => {
-        window.localStorage.setItem('currentUser', JSON.stringify(data.user.email))
-        window.localStorage.setItem('token', JSON.stringify(data.token))
-        setCurrentUser(data.user.email)
-        if (data.user.email === 'admin@gmail.com') {
-          navigate('/available-movies')
-        } else {
-          navigate('/', { state: { message: 'jelouda' } })
-        }
+        console.log({ data })
+        navigate('/login')
       })
       .catch(error => {
         console.log({ error })
-        if (error.response.status === 401) {
+        if (error.response.status === 403 || error.response.status === 500) {
           setAlert({
             open: true,
             type: 'error',
-            message: 'Contraseña o usuario incorrecto.'
+            message: 'Correo Electrónico en uso, ingrese un nuevo correo .'
           })
         } else {
           setAlert({
@@ -82,7 +79,6 @@ export function Login () {
         setIsLoading(false)
       })
   }
-
   return (
     <Container
       sx={{
@@ -106,16 +102,21 @@ export function Login () {
         <Typography
           component='h1'
           variant='h1'
-          sx={{ fontWeight: 'bold', mb: '2rem', textAlign: 'center', fontSize: '40px' }}
+          sx={{ fontWeight: 'bold', mb: '2rem', fontSize: '40px' }}
         >
-          Inicia sesión
+          Registrate
         </Typography>
-
+        <ControlledInput
+          control={control}
+          label='Nombre de Usuario'
+          name='username'
+          autoFocus
+          sx={{ mb: '1rem' }}
+        />
         <ControlledInput
           control={control}
           label='Correo electrónico'
           name='email'
-          autoFocus
           sx={{ mb: '1rem' }}
         />
 
@@ -148,31 +149,20 @@ export function Login () {
           disabled={isLoading}
           sx={{ textTransform: 'initial', width: '100%', mb: '1rem', fontSize: '1.1rem' }}
         >
-          {isLoading ? 'Cargando...' : 'Iniciar sesión'}
+          {isLoading ? 'Cargando...' : 'Registrarme'}
         </Button>
-
-        <Button
-          variant='text' size='large' type='button'
-          sx={{ textDecoration: 'underline', textTransform: 'initial', mx: 'auto', fontSize: '1rem' }}
-          component={Link}
-          disabled={isLoading}
-          to='/recovery'
-        >
-          Olvidé mi contraseña
-        </Button>
-
         <Stack direction='row' alignItems='center' sx={{ mx: 'auto' }}>
           <Typography>
-            ¿No tienes una cuenta?
+            ¿Ya tienes una cuenta?
           </Typography>
           <Button
             variant='text' size='large' type='button'
             sx={{ textTransform: 'initial', fontWeight: '700', fontSize: '1rem' }}
             component={Link}
             disabled={isLoading}
-            to='/register'
+            to='/login'
           >
-            Regístrate
+            Iniciar Sesión
           </Button>
         </Stack>
         <Snackbar open={alert?.open}>
@@ -186,5 +176,8 @@ export function Login () {
         </Snackbar>
       </Box>
     </Container>
+
   )
 }
+
+export default Register
