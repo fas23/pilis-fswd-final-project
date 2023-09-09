@@ -59,7 +59,11 @@ export function Login () {
         window.localStorage.setItem('currentUser', JSON.stringify(data.user.email))
         window.localStorage.setItem('token', JSON.stringify(data.token))
         setCurrentUser(data.user.email)
-        navigate('/', { state: { message: 'jelouda' } })
+        if (data.user.email === 'admin@gmail.com') {
+          navigate('/available-movies')
+        } else {
+          navigate('/', { state: { message: 'jelouda' } })
+        }
       })
       .catch(error => {
         console.log({ error })

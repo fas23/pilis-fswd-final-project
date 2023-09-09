@@ -4,7 +4,7 @@ import { UserIcon } from './Icons/UserIcon'
 import { useState } from 'react'
 import { Logout } from '@mui/icons-material'
 
-const Profile = ({ user, out }) => {
+export const AdminProfile = ({ user, out }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -71,9 +71,23 @@ const Profile = ({ user, out }) => {
         <MenuItem
           onClick={handleClose}
           component={Link}
-          to='/tickets'
+          to='/upload-movie'
         >
-          Mis boletos
+          Agregar una película
+        </MenuItem>
+        <MenuItem
+          onClick={handleClose}
+          component={Link}
+          to='/available-movies'
+        >
+          Ver películas disponibles
+        </MenuItem>
+        <MenuItem
+          onClick={handleClose}
+          component={Link}
+          to='/scan-qr-code'
+        >
+          Escanear código QR
         </MenuItem>
         <MenuItem onClick={out}>
           <ListItemIcon>
@@ -85,5 +99,3 @@ const Profile = ({ user, out }) => {
     </>
   )
 }
-
-export default Profile

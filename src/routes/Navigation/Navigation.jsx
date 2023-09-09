@@ -10,6 +10,7 @@ import logo from '../../assets/img/palomitas.png'
 import { BarsIcon, CartIcon } from '../../components/Icons'
 import { UserContext } from '../../context/UserContext'
 import Profile from '../../components/Profile'
+import { AdminProfile } from '../../components/AdminProfile'
 
 export const Navigation = () => {
   const navigate = useNavigate()
@@ -123,7 +124,11 @@ export const Navigation = () => {
               <CartIcon />
             </IconButton>
             {
-              currentUser && <Profile user={currentUser} out={handleSignOut} />
+              currentUser && currentUser !== 'admin@gmail.com' && <Profile user={currentUser} out={handleSignOut} />
+            }
+
+            {
+              currentUser && currentUser === 'admin@gmail.com' && <AdminProfile user={currentUser} out={handleSignOut} />
             }
 
             <IconButton
