@@ -316,9 +316,7 @@ const Movie = () => {
             <Input
               type='number'
               placeholder='Ingrese la cantidad de boletos'
-              /* value={price}  */
-              min='1'
-              max={available}
+              value={quantity >=1 && quantity<=available?quantity:''}
               name='quantity'
               onInput={e => { setQuantity(e.target.value) }}
               sx={{ width: 300 }}
@@ -345,7 +343,7 @@ const Movie = () => {
                 <Button
                   type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
                   sx={{ ml: 'auto', width: '200px', alignSelf: 'flex-end', fontWeight: 600 }}
-                  startIcon={ <CartIcon/> }
+                  startIcon={ <CartIcon stroke='#FFF'/> }
                 >
                   Añadir al carrito
                 </Button>
