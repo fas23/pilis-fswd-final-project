@@ -1,5 +1,5 @@
-import React, { useEffect, useContext, useState } from 'react'
-import { Link, json, useNavigate } from 'react-router-dom'
+import React, { useEffect, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { CartContext } from '../../context/CartContext'
 
 import Box from '@mui/joy/Box'
@@ -7,9 +7,7 @@ import Button from '@mui/joy/Button'
 import Table from '@mui/joy/Table'
 import Typography from '@mui/joy/Typography'
 import Sheet from '@mui/joy/Sheet'
-import { Padding } from '@mui/icons-material'
 import { payment } from '../../services/payment'
-import ConfirmationLogin from '../../components/modal/ConfirmationLogin'
 
 const Cart = () => {
   const { cart, setCart } = useContext(CartContext)
@@ -163,7 +161,7 @@ const Cart = () => {
                   <td>$ {row.total}</td>
                   <td>
                     <Box sx={{ display: 'flex', gap: 1 }}>
-                      <Button size='sm' variant='soft' color='danger' sx={{width:'100%'}} onClick={() => handleDelete(row.id)}>
+                      <Button size='sm' variant='soft' color='danger' sx={{ width: '100%' }} onClick={() => handleDelete(row.id)}>
                         Borrar
                       </Button>
                     </Box>
@@ -179,12 +177,10 @@ const Cart = () => {
           {cart.length !== 0 &&
           (<Button
             type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
-             sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}
-             onClick={handlePayment}
-           >Pagar</Button>)
-
-            //<ConfirmationLogin payment={handlePayment} />
-            }
+            sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}
+            onClick={handlePayment}
+           >Pagar
+           </Button>)}
 
         </Sheet>
       </Box>

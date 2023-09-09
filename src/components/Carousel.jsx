@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import CarouselMUI from 'react-material-ui-carousel'
 import { MovieContext } from '../context/MovieContext'
 import { useContext } from 'react'

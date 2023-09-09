@@ -53,9 +53,6 @@ export function Login () {
     setIsLoading(true)
     login(data)
       .then((data) => {
-        // setToken(data.token)
-        // setCurrentUser({ email: data.user.email, name: data.user.name })
-        // navigate(URLS.WORKERS)
         window.localStorage.setItem('currentUser', JSON.stringify(data.user.email))
         window.localStorage.setItem('token', JSON.stringify(data.token))
         setCurrentUser(data.user.email)
