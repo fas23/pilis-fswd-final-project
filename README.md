@@ -1,8 +1,25 @@
-# React + Vite
+# FlicksSpot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Instrucciones:
 
-Currently, two official plugins are available:
+Clonar el repositorio en donde se encuentra la API:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+  git clone https://github.com/gamcode98/pilis-mod6-api-flicksSpot.git
+```
+
+Seguir las instrucciones para poder iniciar el servidor backend,ver en:
+
+[pilis-mod6-api-flicksSpot](https://github.com/gamcode98/pilis-mod6-api-flicksSpot)
+
+Instalar las dependencias:
+
+```bash
+  npm i 
+```
+
+Iniciar la aplicación:
+
+```bash
+  npm run dev
+```
