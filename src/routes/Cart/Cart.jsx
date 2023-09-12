@@ -8,6 +8,7 @@ import Table from '@mui/joy/Table'
 import Typography from '@mui/joy/Typography'
 import Sheet from '@mui/joy/Sheet'
 import { payment } from '../../services/payment'
+import ConfirmationLogin from '../../components/modal/ConfirmationLogin'
 
 const Cart = () => {
   const { cart, setCart } = useContext(CartContext)
@@ -57,8 +58,8 @@ const Cart = () => {
         <Typography level='body-sm' textAlign='center' sx={{ pb: 2 }}>
           <Link className='btn-see-more' to='/'>
             <Button
-              type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
-              sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
+              type='submit' size='md' variant='neutral' aria-label='Explore Bahamas Islands'
+              sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600, bgcolor: '#F9B208' }}
             >Seguir comprando
             </Button>
           </Link>
@@ -175,12 +176,13 @@ const Cart = () => {
           <Typography level='h2' sx={{ color: 'black', paddingRight: '2rem', paddingTop: '2rem' }}>Total: $ {totalPrices}</Typography>
           <br />
           {cart.length !== 0 &&
-          (<Button
-            type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
-            sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}
-            onClick={handlePayment}
-           >Pagar
-           </Button>)}
+            <ConfirmationLogin payment={handlePayment} />}
+          {/* // <Button
+          //   type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
+          //   sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}
+          //   onClick={handlePayment}
+          //  >Pagar
+          //  </Button> */}
 
         </Sheet>
       </Box>
