@@ -22,7 +22,7 @@ export const CardItem = (props) => {
   const handleClose = () => setOpen(false)
 
   return (
-    <Grid key={item.movieId} item xs={12} sm={4} lg={3} sx={{ padding: '15px' }}>
+    <Grid key={item.movieId} item xs={12} sm={4} lg={3} sx={{ padding: '1rem' }}>
       <Card variant='outlined'>
         <Box
           component='img'
@@ -35,7 +35,7 @@ export const CardItem = (props) => {
             objectPosition: 'center'
           }}
         />
-        <CardContent orientation='horizontal' sx={{ padding: '1rem' }}>
+        <CardContent orientation='horizontal'>
           <Stack spacing={1} sx={{ width: '100%' }}>
             <Typography level='title-lg' sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
               {item.title}

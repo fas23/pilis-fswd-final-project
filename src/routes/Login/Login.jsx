@@ -8,6 +8,7 @@ import { ControlledInput } from '../../components/ControlledInput'
 import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../../services/login'
 import { UserContext } from '../../context/UserContext'
+import { CartContext } from '../../context/CartContext'
 
 const loginSchema = yup.object({
   email: yup.string()
@@ -27,6 +28,7 @@ export function Login () {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [alert, setAlert] = useState(null)
+  const { cart } = useContext(CartContext)
 
   const navigate = useNavigate()
 
@@ -58,6 +60,10 @@ export function Login () {
         setCurrentUser(data.user.email)
         if (data.user.email === 'admin@gmail.com') {
           navigate('/available-movies')
+        }
+
+        if (cart.length > 0) {
+          navigate('/cart')
         } else {
           navigate('/', { state: { message: 'jelouda' } })
         }

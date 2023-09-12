@@ -1,11 +1,11 @@
-export const CartIcon = () => {
+export const CartIcon = ({stroke='currentColor'}) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       fill='none'
       viewBox='0 0 24 24'
       strokeWidth={1.5}
-      stroke='currentColor'
+      stroke={stroke}
       className='w-6 h-6'
       width={30}
       height={30}
