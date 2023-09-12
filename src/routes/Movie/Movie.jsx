@@ -124,7 +124,7 @@ const Movie = () => {
         <h1>{movies.title}</h1>
       </Sheet>
       <Box sx={{ width: '100%' }}>
-      <Grid container spacing={2} sx={{ flexGrow: 1, padding: '4rem', height:'100%' }} justifyContent='center'>
+      <Grid container spacing={2} sx={{ flexGrow: 1, padding: '2rem', height:'100%' }} justifyContent='center'>
         <Grid item='true' xs={6}>
           <Grid item xs={12} sx={{ height: '25rem' }}>
             <CardMedia component='iframe' src={movies.trailerUrl.replace('.be', 'be.com/embed')} allow='autoPlay' sx={{ height: '100%' }} />
@@ -238,7 +238,6 @@ const Movie = () => {
                     <Radio
                       value={value}
                       checkedIcon={<CheckCircleRoundedIcon />}
-                      
                       {...register('date', { required: 'Debe seleccionar una fecha' })}
                     /> 
                      <FormLabel htmlFor={value}>{ formatLongDate(value)}</FormLabel> 

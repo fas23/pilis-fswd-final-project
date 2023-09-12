@@ -24,8 +24,8 @@ const Home = () => {
         </Grid>
       </Grid>
 
-      <Sheet color='neutral' sx={{ p: 1, textAlign: 'center' }}>
-        <h2>En cartelera</h2>
+      <Sheet variant='outlined' color='neutral' sx={{ p: 1, textAlign: 'center', backgroundColor: '#CCCCCC' }}>
+        <h1>En cartelera</h1>
       </Sheet>
 
       <Listings />
