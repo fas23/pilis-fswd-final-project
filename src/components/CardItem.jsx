@@ -3,6 +3,7 @@ import { ArrowsRightLeftIcon, ClockIcon, TicketIcon, QresIcon } from './Icons'
 import { useState } from 'react'
 import { formatLongDate, formatTime } from '../utils'
 import Modal from '@mui/material/Modal'
+import { ColorButton } from './ColorButton'
 
 export const CardItem = (props) => {
   const { item } = props
@@ -67,9 +68,12 @@ export const CardItem = (props) => {
             Cambiar función
           </Button>}
         <CardActions sx={{ padding: 0 }}>
-          <Button variant='contained' sx={{ width: '100%', borderRadius: 0 }} startIcon={<QresIcon />} onClick={handleOpen}>
+          {/* <Button variant='contained' sx={{ width: '100%', borderRadius: 0 }} startIcon={<QresIcon />} onClick={handleOpen}>
             MOSTRAR CÓDIGO QR
-          </Button>
+          </Button> */}
+          <ColorButton variant='contained' sx={{ width: '100%', borderRadius: 0 }} startIcon={<QresIcon />} onClick={handleOpen}>
+            MOSTRAR CÓDIGO QR
+          </ColorButton>
           <Modal
             open={open}
             onClose={handleClose}
@@ -106,12 +110,12 @@ export const CardItem = (props) => {
               />
               <Box textAlign='center'>
 
-                <Button
+                <ColorButton
                   size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
                   sx={{ width: '200px', alignSelf: 'center', fontWeight: 400, backgroundColor: '#CCCCCCC', borderRadius: '10px' }}
                   onClick={handleClose}
                 >Cerrar
-                </Button>
+                </ColorButton>
               </Box>
             </Box>
           </Modal>

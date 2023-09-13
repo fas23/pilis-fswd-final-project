@@ -1,9 +1,10 @@
-import { Box, Grid, Button, Backdrop, CircularProgress } from '@mui/material'
+import { Box, Grid, Backdrop, CircularProgress } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ticket } from '../../services/ticket'
 import { CardItem } from '../../components/CardItem'
 import Sheet from '@mui/joy/Sheet'
+import { ColorButton } from '../../components/ColorButton'
 
 const Tickets = () => {
   const navigate = useNavigate()
@@ -31,23 +32,23 @@ const Tickets = () => {
         <h1>Mis boletos</h1>
       </Sheet>
       <Backdrop
-        sx={{ color: '#fff',zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isLoading}
       >
         <CircularProgress color='inherit' />
       </Backdrop>
-      <Grid container sx={{ width: '100%', objectPosition: 'center',padding: '1rem' }}>
+      <Grid container sx={{ width: '100%', objectPosition: 'center', padding: '1rem' }}>
         {tickets.map((item) => (
           <CardItem item={item} key={item.movieId} />
         ))}
       </Grid>
       <Box textAlign='center'>
-        <Button
+        <ColorButton
           size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
-          sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600, backgroundColor: '#CCCCCC' }}
+          sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}
           onClick={handleClose}
         >Volver al inicio
-        </Button>
+        </ColorButton>
       </Box>
     </>
   )

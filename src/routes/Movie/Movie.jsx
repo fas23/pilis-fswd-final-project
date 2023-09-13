@@ -4,7 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { MovieContext } from '../../context/MovieContext'
 import { CartContext } from '../../context/CartContext'
 import { useForm, Controller } from 'react-hook-form'
-import { CartIcon } from '../../components/Icons'
+import { CartIcon, CancelIcon } from '../../components/Icons'
 import Grid from '@mui/joy/Grid'
 import Box from '@mui/joy/Box'
 import Autocomplete from '@mui/joy/Autocomplete'
@@ -25,6 +25,7 @@ import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Paper from '@mui/material/Paper'
 import { formatLongDate, formatTime } from '../../utils'
+import { ColorButton } from '../../components/ColorButton'
 
 const Movie = () => {
   const { id } = useParams()
@@ -213,7 +214,7 @@ const Movie = () => {
                     value={fechaSelected}
                     onChange={handleChangeFecha}
                   >
-                    <p>{errors.date?.message}</p>
+                    <p style={{ color: 'red' }}>{errors.date?.message}</p>
 
                     {uniqueFechas.map((value) => (
                       <Sheet
@@ -278,7 +279,7 @@ const Movie = () => {
                     }}
                     onChange={handleChangeHora}
                   >
-                    <p>{errors.hour?.message}</p>
+                    <p style={{ color: 'red' }}>{errors.hour?.message}</p>
                     {horas.map((value) => (
                       <Sheet
                         key={value}
@@ -317,7 +318,7 @@ const Movie = () => {
                   sx={{ width: 300 }}
                   {...register('quantity', { required: 'Debe ingresar una cantidad' })}
                 />
-                <p>{errors.quantity?.message}</p>
+                <p style={{ color: 'red' }}>{errors.quantity?.message}</p>
 
               </Grid>
 
@@ -328,24 +329,25 @@ const Movie = () => {
                 <Grid item>
                   <Tooltip>
                     <Link className='btn-back' to='/'>
-                      <Button
+                      <ColorButton
                         size='md' variant='neutral' aria-label='Explore Bahamas Islands'
-                        sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600, bgcolor: '#F9B208' }}
+                        sx={{ ml: 'auto', width: '210px', alignSelf: 'center', fontWeight: 600 }}
+                        startIcon={<CancelIcon />}
                       >
                         Cancelar compra
-                      </Button>
+                      </ColorButton>
                     </Link>
                   </Tooltip>
                 </Grid>
                 <Grid item>
                   <Tooltip>
-                    <Button
+                    <ColorButton
                       type='submit' size='md' variant='neutral' aria-label='Explore Bahamas Islands'
-                      sx={{ ml: 'auto', width: '200px', alignSelf: 'flex-end', fontWeight: 600, bgcolor: '#F9B208' }}
-                      startIcon={<CartIcon stroke='#FFF' />}
+                      sx={{ ml: 'auto', width: '210px', alignSelf: 'flex-end', fontWeight: 600 }}
+                      startIcon={<CartIcon stroke='#FFF' height={25} />}
                     >
                       Añadir al carrito
-                    </Button>
+                    </ColorButton>
                   </Tooltip>
                 </Grid>
 
