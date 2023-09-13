@@ -18,6 +18,9 @@ export const theme = createTheme({
   palette: {
     ochre: {
       main: '#F9B208'
+    },
+    '&:hover': {
+      backgroundColor: '#E9DB5D'
     }
   }
 })

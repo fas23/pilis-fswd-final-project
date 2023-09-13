@@ -10,6 +10,7 @@ import { Button } from '@mui/material'
 import { useContext } from 'react'
 import { UserContext } from '../../context/UserContext'
 import { Link } from 'react-router-dom'
+import { ColorButton } from '../ColorButton'
 
 const style = {
   position: 'absolute',
@@ -43,8 +44,8 @@ export default function ConfirmationLogin ({ payment }) {
     <div>
       {
         currentUser
-          ? <Button type='submit' size='md' variant='neutral' aria-label='Explore Bahamas Islands' sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600, bgcolor: '#F9B208' }} onClick={payment}> Pagar</Button>
-          : <Button onClick={handleOpen} size='md' variant='neutral' aria-label='Explore Bahamas Islands' sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600, bgcolor: '#F9B208' }}>Pagar</Button>
+          ? <ColorButton type='submit' size='md' variant='neutral' aria-label='Explore Bahamas Islands' sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }} onClick={payment}> Pagar</ColorButton>
+          : <ColorButton onClick={handleOpen} size='md' variant='neutral' aria-label='Explore Bahamas Islands' sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600, bgcolor: '#F9B208' }}>Pagar</ColorButton>
 }
 
       {/* <Button

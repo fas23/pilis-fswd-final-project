@@ -9,6 +9,7 @@ import Typography from '@mui/joy/Typography'
 import Sheet from '@mui/joy/Sheet'
 import { payment } from '../../services/payment'
 import ConfirmationLogin from '../../components/modal/ConfirmationLogin'
+import { ColorButton } from '../../components/ColorButton'
 
 const Cart = () => {
   const { cart, setCart } = useContext(CartContext)
@@ -57,11 +58,11 @@ const Cart = () => {
       <Box sx={{ width: '100%', padding: '2rem' }}>
         <Typography level='body-sm' textAlign='center' sx={{ pb: 2 }}>
           <Link className='btn-see-more' to='/'>
-            <Button
+            <ColorButton
               type='submit' size='md' variant='neutral' aria-label='Explore Bahamas Islands'
-              sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600, bgcolor: '#F9B208' }}
+              sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
             >Seguir comprando
-            </Button>
+            </ColorButton>
           </Link>
         </Typography>
         <Sheet
