@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { register } from '../../services/register'
+import { ColorButton } from '../../components/ColorButton'
 
 const VALID_PASSWORD_REGEX = /^(?=.*?[A-Z])(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*?[a-z])(?=.*?[0-9]).{8,20}$/
 const registerSchema = yup.object({
@@ -142,7 +143,7 @@ const Register = () => {
           }}
           sx={{ mb: '1rem' }}
         />
-        <Button
+        <ColorButton
           variant='contained'
           size='large'
           type='submit'
@@ -150,7 +151,7 @@ const Register = () => {
           sx={{ textTransform: 'initial', width: '100%', mb: '1rem', fontSize: '1.1rem' }}
         >
           {isLoading ? 'Cargando...' : 'Registrarme'}
-        </Button>
+        </ColorButton>
         <Stack direction='row' alignItems='center' sx={{ mx: 'auto' }}>
           <Typography>
             ¿Ya tienes una cuenta?

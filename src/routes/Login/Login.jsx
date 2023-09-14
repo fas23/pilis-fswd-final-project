@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../../services/login'
 import { UserContext } from '../../context/UserContext'
 import { CartContext } from '../../context/CartContext'
+import { ColorButton } from '../../components/ColorButton'
 
 const loginSchema = yup.object({
   email: yup.string()
@@ -147,7 +148,7 @@ export function Login () {
           }}
           sx={{ mb: '1rem' }}
         />
-        <Button
+        <ColorButton
           variant='contained'
           size='large'
           type='submit'
@@ -155,7 +156,7 @@ export function Login () {
           sx={{ textTransform: 'initial', width: '100%', mb: '1rem', fontSize: '1.1rem' }}
         >
           {isLoading ? 'Cargando...' : 'Iniciar sesión'}
-        </Button>
+        </ColorButton>
 
         <Button
           variant='text' size='large' type='button'

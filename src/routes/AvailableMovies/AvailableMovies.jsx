@@ -6,6 +6,7 @@ import { moviesWithoutCinemaShows } from '../../services/moviesWithoutCinemaShow
 import { ArrowsRightLeftIcon, PencilIcon, PlusIcon, SearchIcon, TrashIcon, TvIcon } from '../../components/Icons'
 import { movie } from '../../services/movie'
 import { deleteMovie } from '../../services/deleteMovie.'
+import { ColorButton } from '../../components/ColorButton'
 
 export const AvailableMovies = () => {
   const [movies, setMovies] = useState([])
@@ -187,7 +188,7 @@ export const AvailableMovies = () => {
             >
               No se encontraron películas disponibles a la búsqueda
             </Typography>
-            <Button
+            <ColorButton
               onClick={handleReset}
               variant='contained' size='large'
               sx={{
@@ -200,7 +201,7 @@ export const AvailableMovies = () => {
               }}
             >
               Obtener todas las películas
-            </Button>
+            </ColorButton>
           </Box>}
 
         {!isLoading && filteredMovies.map(movie => (

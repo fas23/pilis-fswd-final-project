@@ -1,5 +1,4 @@
 // import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { Link } from 'react-router-dom'
 import Grid from '@mui/material/Grid'
@@ -7,6 +6,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { ColorButton } from '../../components/ColorButton'
 // import img from '../../assets/img/palomitas.png'
 // import { lightBlue } from '@mui/material/colors'
 
@@ -55,14 +55,14 @@ export default function Recovery () {
               autoComplete='email'
               autoFocus
             />
-            <Button
+            <ColorButton
               type='submit'
               fullWidth
               variant='contained'
               sx={{ mt: 3, mb: 2 }}
             >
               Enviar correo de recuperación
-            </Button>
+            </ColorButton>
             <Grid container>
               <Grid item xs>
                 <Link to='/login' variant='body2'>

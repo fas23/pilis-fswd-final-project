@@ -3,6 +3,7 @@ import { Box, Button, Container, LinearProgress, Paper, Stack, Typography } from
 import { useState } from 'react'
 import { uploadImage } from '../../services/uploadImage'
 import ImageUploader from '/src/assets/img/image.svg'
+import { ColorButton } from '../ColorButton'
 
 export const UploadImage = (props) => {
   const { handleNext, handleImage } = props
@@ -166,7 +167,7 @@ export const UploadImage = (props) => {
               >O
               </Typography>
 
-              <Button
+              <ColorButton
                 variant='contained'
                 component='label'
                 sx={{
@@ -185,7 +186,7 @@ export const UploadImage = (props) => {
                   hidden
                   onChange={(e) => handleChange(e)}
                 />
-              </Button>
+              </ColorButton>
 
             </Paper>
           </Box>
