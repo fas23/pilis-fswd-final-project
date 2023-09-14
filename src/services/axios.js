@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = 'https://cinema-api-yutm.onrender.com'
+const baseURL = 'https://gamdev.tech'
 export default axios.create({
   baseURL
 })

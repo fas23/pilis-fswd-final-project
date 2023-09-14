@@ -57,11 +57,15 @@ const Movie = () => {
     setFechas(movies.cinemaShows.filter((item) => item.room.name === value).map((item) => item.date))
     setHoras([])
   }
+  useEffect(() => {
+    handleSelected(null,roomSelected)
+  }, [roomSelected])
+  
+
 
   const handleChangeFecha = (event, value) => {
     setFechasSelected(event.target.value)
-    setHoras(movies.cinemaShows.filter((item) => item.date === event.target.value && item.room.name === roomSelected).map((item) => item.hour))
-    setHoras(movies.cinemaShows.filter((item) => item.date === event.target.value && item.room.name === roomSelected).map((item) => item.hour))
+    setHoras(movies.cinemaShows.filter((item) => item.date === event.target.value && item.room.name === roomSelected).map((item) => ({hour: item.hour, minutes: item.minutes})))
   }
   const handleChangeHora = (event) => {
     setHoraSelected(event.target.value)
@@ -170,7 +174,7 @@ const Movie = () => {
                 <Autocomplete
                   placeholder='Seleccione la animación'
                   style={{ width: 300, marginBottom: '6%' }}
-              // value={value}
+                  value={roomSelected}
                   options={uniqueRooms}
                   onChange={handleSelected}
                   renderInput={(params) => <TextField {...params} defaultValue='Estelar' variant='outlined' />}
@@ -280,9 +284,9 @@ const Movie = () => {
                     onChange={handleChangeHora}
                   >
                     <p style={{ color: 'red' }}>{errors.hour?.message}</p>
-                    {horas.map((value) => (
+                    {horas.map((value,index) => (
                       <Sheet
-                        key={value}
+                        key={index}
                         variant='outlined'
                         sx={{
                           borderRadius: 'md',
@@ -296,11 +300,11 @@ const Movie = () => {
                         }}
                       >
                         <Radio
-                          value={value}
+                          value={value.hour}
                           checkedIcon={<CheckCircleRoundedIcon />}
                           {...register('hour', { required: 'Debe seleccionar una hora' })}
                         />
-                        <FormLabel htmlFor={value}> {formatTime(value, '00')}</FormLabel>
+                        <FormLabel htmlFor={value.hour}> {formatTime(value.hour, value.minutes)}</FormLabel>
                       </Sheet>
                     ))}
                   </RadioGroup>
@@ -322,29 +326,29 @@ const Movie = () => {
 
               </Grid>
 
-              <Grid container item='true' spacing={2}>
+              <Typography level='body-xs' variant='h6' sx={{ marginBottom: '5%', width: '100%', textAlign: 'end', marginRight: '2em' }}>Subtotal: $ {totalPrice}</Typography>
+              
+              <Grid container spacing={2} sx={{display:'flex', justifyContent:'space-between'}}>
 
-                <Typography level='body-xs' variant='h6' sx={{ marginBottom: '5%', width: '100%', textAlign: 'end', marginRight: '2em' }}>Subtotal: $ {totalPrice}</Typography>
-
-                <Grid item>
+                <Grid item='true'>
                   <Tooltip>
                     <Link className='btn-back' to='/'>
                       <ColorButton
                         size='md' variant='neutral' aria-label='Explore Bahamas Islands'
                         sx={{ ml: 'auto', width: '210px', alignSelf: 'center', fontWeight: 600 }}
-                        startIcon={<CancelIcon />}
+                        /* startIcon={<CancelIcon />} */
                       >
-                        Cancelar compra
+                        Volver
                       </ColorButton>
                     </Link>
                   </Tooltip>
                 </Grid>
-                <Grid item>
-                  <Tooltip>
+                <Grid item='true'>
+                  <Tooltip >
                     <ColorButton
                       type='submit' size='md' variant='neutral' aria-label='Explore Bahamas Islands'
                       sx={{ ml: 'auto', width: '210px', alignSelf: 'flex-end', fontWeight: 600 }}
-                      startIcon={<CartIcon stroke='#FFF' height={25} />}
+                      startIcon={<CartIcon /* stroke='#FFF' */ height={25} />}
                     >
                       Añadir al carrito
                     </ColorButton>

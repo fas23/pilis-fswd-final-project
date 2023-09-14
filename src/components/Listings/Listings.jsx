@@ -15,7 +15,7 @@ const Listings = () => {
   const { listings, setListings } = useContext(MovieContext)
   const [isLoading, setIsLoading] = useState(false)
   const [search, setSearch]=useState('')
-
+  console.log('peliculas', listings)
   useEffect(() => {
     setIsLoading(true)
     movie()
@@ -65,7 +65,9 @@ const Listings = () => {
             <Listing
               key={listing.id}
               id={listing.id}
-              name={listing.title} image={listing.image.url} hour='02:30' price={900}
+              name={listing.title} image={listing.image.url} 
+              hour={listing.duration} 
+              price={listing.cinemaShows[0].price}
             /> 
           )
         }): 

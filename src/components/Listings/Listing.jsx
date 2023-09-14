@@ -31,7 +31,7 @@ const Listing = ({ id, name, image, hour, price }) => {
             <Typography level='body-xs'>Duración:</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               <ClockIcon />
-              <Typography level='body-lg'>{hour}hs</Typography>
+              <Typography level='body-lg'>{hour} Hrs</Typography>
             </Box>
 
             <Divider />
@@ -39,7 +39,7 @@ const Listing = ({ id, name, image, hour, price }) => {
             <Typography level='body-xs'>Precio:</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               <BankNotesIcon />
-              <Typography level='body-lg'>${price}</Typography>
+              <Typography level='body-lg'>$ {price}</Typography>
             </Box>
 
           </Stack>
