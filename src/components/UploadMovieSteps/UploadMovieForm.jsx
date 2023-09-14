@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Alert, Box, Button, Snackbar, Typography } from '@mui/material'
+import { Alert, Box, Snackbar, Typography } from '@mui/material'
 import { ControlledInput } from '../ControlledInput'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,6 +8,7 @@ import { ControlledSelect } from '../ControlledSelect'
 import { options } from '../../utils/optionsToSelect'
 import { uploadMovie } from '../../services/uploadMovie'
 import { updateMovie } from '../../services/updateMovie'
+import { ColorButton } from '../ColorButton'
 
 const movieSchema = yup.object({
   title: yup.string()
@@ -139,7 +140,7 @@ export const UploadMovieForm = (props) => {
         rows={4}
         sx={{ mb: '1rem' }}
       />
-      <Button
+      <ColorButton
         variant='contained'
         size='large'
         type='submit'
@@ -147,7 +148,7 @@ export const UploadMovieForm = (props) => {
         sx={{ textTransform: 'initial', width: '100%', mb: '1rem', fontSize: '1rem' }}
       >
         {isLoading ? 'Guardando...' : 'Guardar'}
-      </Button>
+      </ColorButton>
       <Snackbar open={alert?.open} autoHideDuration={6000} onClose={handleCloseAlert}>
         <Alert
           onClose={handleCloseAlert}

@@ -1,8 +1,9 @@
-import { Button, Container, Stack, Typography } from '@mui/material'
+import { Container, Stack, Typography } from '@mui/material'
 import { Table } from '../../components/Table'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { PlusIcon } from '../../components/Icons'
 import { useState } from 'react'
+import { ColorButton } from '../../components/ColorButton'
 
 export const CinemaShows = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -43,14 +44,14 @@ export const CinemaShows = () => {
         >
           Funciones disponibles para {movie.title}
         </Typography>
-        <Button
+        <ColorButton
           variant='contained' startIcon={<PlusIcon />}
           sx={{ textTransform: 'initial', fontSize: '1rem', width: 'fit-content' }}
           disabled={isLoading}
           onClick={handleAddNewCinemaShow}
         >
           Agregar función
-        </Button>
+        </ColorButton>
       </Stack>
       <Table rows={movie.cinemaShows} movie={movie} isLoading={isLoading} setIsLoading={setIsLoading} />
     </Container>
