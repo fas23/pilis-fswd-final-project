@@ -15,6 +15,9 @@ const movieSchema = yup.object({
     .min(3, 'El título no debe tener menos de 3 caracteres')
     .max(50, 'El título no debe tener más de 50 caracteres')
     .required('El título es obligatorio'),
+  duration: yup.string()
+    .min(5, 'La duración solo puede contener 5 digitos')
+    .max(5, 'La duración solo puede contener 5 digitos'),
   director: yup.string()
     .matches(/^[a-zA-Z\s]*$/, 'El nombre del director no debe contener numeros')
     .min(3, 'El director no debe tener menos de 3 caracteres')
@@ -40,6 +43,7 @@ export const UploadMovieForm = (props) => {
     resolver: yupResolver(movieSchema),
     defaultValues: {
       title: movie !== undefined ? movie.title : '',
+      duration: movie !== undefined ? movie.duration : '',
       director: movie !== undefined ? movie.director : '',
       trailerUrl: movie !== undefined ? movie.trailerUrl : '',
       gender: movie !== undefined ? movie.gender : '',
@@ -107,6 +111,13 @@ export const UploadMovieForm = (props) => {
         control={control}
         label='Nombre'
         name='title'
+        autoFocus
+        sx={{ mb: '1rem' }}
+      />
+      <ControlledInput
+        control={control}
+        label='Duración'
+        name='duration'
         autoFocus
         sx={{ mb: '1rem' }}
       />
