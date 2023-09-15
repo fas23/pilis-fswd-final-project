@@ -1,4 +1,4 @@
-import { Backdrop, Box, Button, Card, CardMedia, CircularProgress, Typography } from '@mui/material'
+import { Alert, Backdrop, Box, Button, Card, CardMedia, CircularProgress, Snackbar, Typography } from '@mui/material'
 import { ControlledInput } from '../../components/ControlledInput'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -36,11 +36,16 @@ export const UploadCinemaShow = () => {
   const [halls, setHalls] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [showBackdrop, setShowBackdrop] = useState(false)
+  const [alert, setAlert] = useState(null)
 
   const location = useLocation()
   const navigate = useNavigate()
 
   const { movie } = location.state
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
+  }
 
   useEffect(() => {
     setShowBackdrop(true)
@@ -102,7 +107,33 @@ export const UploadCinemaShow = () => {
           console.log({ data })
           navigate('/available-movies')
         })
-        .catch(error => { console.log({ error }) })
+        .catch((error) => {
+          const { response: { data } } = error
+
+          if (data.message === '"hour" must be greater than or equal to 9') {
+            setAlert({
+              open: true,
+              type: 'error',
+              message: 'La hora debe ser mayor o igual a 9'
+            })
+          }
+
+          if (data.message === 'Cinema show already exists') {
+            setAlert({
+              open: true,
+              type: 'error',
+              message: 'Ya existe una función con esa fecha y hora'
+            })
+          }
+
+          if (data.message === 'The difference between functions must be at least 3 hours.') {
+            setAlert({
+              open: true,
+              type: 'error',
+              message: 'La diferencia entre las funciones debe ser mayor o igual a 3 horas'
+            })
+          }
+        })
         .finally(() => setIsLoading(false))
     }
   }
@@ -177,6 +208,15 @@ export const UploadCinemaShow = () => {
           </Card>
         </Box>
       </Box>
+      <Snackbar open={alert?.open}>
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alert?.type}
+          sx={{ width: '100%' }}
+        >
+          {alert?.message}
+        </Alert>
+      </Snackbar>
     </>
   )
 }
