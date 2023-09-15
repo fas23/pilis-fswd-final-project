@@ -30,7 +30,7 @@ const movieSchema = yup.object({
   description: yup.string()
     .required('La descripción es obligatoria')
     .min(10, 'La descripción no debe tener menos de 10 caracteres')
-    .max(255, 'La descripción no debe tener más de 255 caracteres')
+    .max(200, 'La descripción no debe tener más de 200 caracteres')
 }).required()
 
 export const UploadMovieForm = (props) => {
