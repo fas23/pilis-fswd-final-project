@@ -222,7 +222,7 @@ export const AvailableMovies = () => {
                   ? (
                     <Button
                       variant='text' startIcon={<TvIcon />}
-                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%', color: '#F9B208' }}
                       onClick={() => handleShowCinemaShows(movie)}
                     >
                       Ver funciones
@@ -231,7 +231,7 @@ export const AvailableMovies = () => {
                   : (
                     <Button
                       variant='text' startIcon={<PlusIcon />}
-                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%', color: '#F9B208' }}
                       onClick={() => handleAddNewCinemaShow(movie)}
                     >
                       Agregar función
@@ -239,14 +239,14 @@ export const AvailableMovies = () => {
                     )}
                 <Button
                   variant='text' startIcon={<PencilIcon />}
-                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%', color: '#F9B208' }}
                   onClick={() => handleEditMovie(movie)}
                 >
                   Editar
                 </Button>
                 <Button
                   variant='text' startIcon={<TrashIcon />}
-                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%', color: 'red' }}
                   onClick={() => handleDeleteMovie(movie)}
                 >
                   Eliminar
