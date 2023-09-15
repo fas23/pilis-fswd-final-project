@@ -85,7 +85,7 @@ export const UploadCinemaShow = () => {
 
     setIsLoading(true)
 
-    if (location.state.cinemaShow !== null) {
+    if (location.state.cinemaShow !== undefined) {
       console.log({ formattedData })
       const id = location.state.cinemaShow.id
 
