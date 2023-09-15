@@ -99,7 +99,41 @@ export const UploadCinemaShow = () => {
           console.log({ data })
           navigate('/available-movies')
         })
-        .catch(error => { console.log({ error }) })
+        .catch(error => {
+          const { response: { data } } = error
+
+          if (data.message === '"hour" must be greater than or equal to 9') {
+            setAlert({
+              open: true,
+              type: 'error',
+              message: 'La hora debe ser mayor o igual a 9'
+            })
+          }
+
+          if (data.message === '"hour" must be less than or equal to 22') {
+            setAlert({
+              open: true,
+              type: 'error',
+              message: 'La hora debe ser menor o igual a 22'
+            })
+          }
+
+          if (data.message === 'Cinema show already exists') {
+            setAlert({
+              open: true,
+              type: 'error',
+              message: 'Ya existe una función con esa fecha y hora'
+            })
+          }
+
+          if (data.message === 'The difference between functions must be at least 3 hours.') {
+            setAlert({
+              open: true,
+              type: 'error',
+              message: 'La diferencia entre las funciones debe ser mayor o igual a 3 horas'
+            })
+          }
+        })
         .finally(() => setIsLoading(false))
     } else {
       uploadCinemaShow(formattedData)
@@ -115,6 +149,14 @@ export const UploadCinemaShow = () => {
               open: true,
               type: 'error',
               message: 'La hora debe ser mayor o igual a 9'
+            })
+          }
+
+          if (data.message === '"hour" must be less than or equal to 22') {
+            setAlert({
+              open: true,
+              type: 'error',
+              message: 'La hora debe ser menor o igual a 22'
             })
           }
 
