@@ -13,6 +13,7 @@ import { BarsIcon, CartIcon } from '../../components/Icons'
 import { UserContext } from '../../context/UserContext'
 import Profile from '../../components/Profile'
 import { AdminProfile } from '../../components/AdminProfile'
+import { ColorButton } from '../../components/ColorButton'
 
 export const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = useState(null)
@@ -114,7 +115,7 @@ export const Navigation = () => {
                     Iniciar sesión
                   </Button>
 
-                  <Button
+                  <ColorButton
                     variant='contained'
                     size='small'
                     type='submit'
@@ -123,7 +124,7 @@ export const Navigation = () => {
                     to='/register'
                   >
                     Regístrate
-                  </Button>
+                  </ColorButton>
                 </>}
             </Box>
 
@@ -142,7 +143,7 @@ export const Navigation = () => {
               currentUser && currentUser === 'admin@gmail.com' && <AdminProfile user={currentUser} out={handleSignOut} />
             }
 
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 aria-label='bars'
                 sx={{ display: { md: 'none' } }}

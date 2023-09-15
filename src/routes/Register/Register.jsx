@@ -103,7 +103,7 @@ const Register = () => {
         <Typography
           component='h1'
           variant='h1'
-          sx={{ fontWeight: 'bold', mb: '2rem', fontSize: '40px' }}
+          sx={{ fontWeight: 'bold', fontSize: '40px', mt: '3.5rem', mb: '1rem' }}
         >
           Registrate
         </Typography>
