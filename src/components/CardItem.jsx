@@ -3,6 +3,7 @@ import { ArrowsRightLeftIcon, ClockIcon, TicketIcon, QresIcon } from './Icons'
 import { useState } from 'react'
 import { formatLongDate, formatTime } from '../utils'
 import Modal from '@mui/material/Modal'
+import { ColorButton } from './ColorButton'
 
 export const CardItem = (props) => {
   const { item } = props
@@ -22,7 +23,7 @@ export const CardItem = (props) => {
   const handleClose = () => setOpen(false)
 
   return (
-    <Grid key={item.movieId} item xs={12} sm={4} lg={3} sx={{ padding: '15px' }}>
+    <Grid key={item.movieId} item xs={12} sm={4} lg={3} sx={{ padding: '1rem' }}>
       <Card variant='outlined'>
         <Box
           component='img'
@@ -35,7 +36,7 @@ export const CardItem = (props) => {
             objectPosition: 'center'
           }}
         />
-        <CardContent orientation='horizontal' sx={{ padding: '1rem' }}>
+        <CardContent orientation='horizontal'>
           <Stack spacing={1} sx={{ width: '100%' }}>
             <Typography level='title-lg' sx={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
               {item.title}
@@ -67,9 +68,12 @@ export const CardItem = (props) => {
             Cambiar función
           </Button>}
         <CardActions sx={{ padding: 0 }}>
-          <Button variant='contained' sx={{ width: '100%', borderRadius: 0 }} startIcon={<QresIcon />} onClick={handleOpen}>
+          {/* <Button variant='contained' sx={{ width: '100%', borderRadius: 0 }} startIcon={<QresIcon />} onClick={handleOpen}>
             MOSTRAR CÓDIGO QR
-          </Button>
+          </Button> */}
+          <ColorButton variant='contained' sx={{ width: '100%', borderRadius: 0 }} startIcon={<QresIcon />} onClick={handleOpen}>
+            MOSTRAR CÓDIGO QR
+          </ColorButton>
           <Modal
             open={open}
             onClose={handleClose}
@@ -106,12 +110,12 @@ export const CardItem = (props) => {
               />
               <Box textAlign='center'>
 
-                <Button
+                <ColorButton
                   size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
                   sx={{ width: '200px', alignSelf: 'center', fontWeight: 400, backgroundColor: '#CCCCCCC', borderRadius: '10px' }}
                   onClick={handleClose}
                 >Cerrar
-                </Button>
+                </ColorButton>
               </Box>
             </Box>
           </Modal>

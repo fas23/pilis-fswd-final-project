@@ -3,8 +3,25 @@ import Trailers from '../../components/Trailers/Trailers'
 import Listings from '../../components/Listings/Listings'
 import { Carousel } from '../../components/Carousel'
 import Sheet from '@mui/joy/Sheet'
+import { useLocation } from 'react-router-dom'
+import { useContext, useEffect } from 'react'
+import { CartContext } from '../../context/CartContext'
 
 const Home = () => {
+  const { cart } = useContext(CartContext)
+  const location = useLocation()
+
+  const queryParams = new URLSearchParams(location.search)
+
+  const status = queryParams.get('status')
+
+  useEffect(() => {
+    if (status === 'success') {
+      window.localStorage.setItem('addCart', JSON.stringify([]))
+      window.localStorage.setItem('addTicket', JSON.stringify(cart))
+    }
+  }, [])
+
   return (
 
     <Box
@@ -24,8 +41,8 @@ const Home = () => {
         </Grid>
       </Grid>
 
-      <Sheet color='neutral' sx={{ p: 1, textAlign: 'center' }}>
-        <h2>En cartelera</h2>
+      <Sheet variant='outlined' color='neutral' sx={{ p: 1, textAlign: 'center', backgroundColor: '#CCCCCC' }}>
+        <h1>En cartelera</h1>
       </Sheet>
 
       <Listings />

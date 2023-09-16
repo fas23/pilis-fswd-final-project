@@ -4,6 +4,8 @@ import { BankNotesIcon, ClockIcon, TicketIcon } from '../Icons'
 // import { Link } from 'react-router-dom'
 // import ConfirmationLogin from '../modal/ConfirmationLogin'
 import { Link } from 'react-router-dom'
+import { theme } from '../../utils/theme'
+import { ThemeProvider } from '@mui/material/styles'
 
 const Listing = ({ id, name, image, hour, price }) => {
   return (
@@ -29,7 +31,7 @@ const Listing = ({ id, name, image, hour, price }) => {
             <Typography level='body-xs'>Duración:</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               <ClockIcon />
-              <Typography level='body-lg'>{hour}hs</Typography>
+              <Typography level='body-lg'>{hour} Hrs</Typography>
             </Box>
 
             <Divider />
@@ -37,7 +39,7 @@ const Listing = ({ id, name, image, hour, price }) => {
             <Typography level='body-xs'>Precio:</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
               <BankNotesIcon />
-              <Typography level='body-lg'>${price}</Typography>
+              <Typography level='body-lg'>$ {price}</Typography>
             </Box>
 
           </Stack>
@@ -45,12 +47,15 @@ const Listing = ({ id, name, image, hour, price }) => {
         <CardActions sx={{ padding: 0 }}>
           {/* <ConfirmationLogin id={id} /> */}
           {/* <Link className='btn-see-more' to={`/listing/${id}`}> */}
-          <Button
-            variant='contained' startIcon={<TicketIcon />} sx={{ width: '100%', borderRadius: 0 }}
-            component={Link} to={`/listing/${id}`}
-          >
-            COMPRAR TICKETS
-          </Button>
+          <ThemeProvider theme={theme}>
+            <Button
+              variant='contained' startIcon={<TicketIcon />} sx={{ width: '100%', borderRadius: 0 }}
+              component={Link} to={`/listing/${id}`}
+              color='ochre'
+            >
+              COMPRAR TICKETS
+            </Button>
+          </ThemeProvider>
           {/* </Link> */}
         </CardActions>
       </Card>

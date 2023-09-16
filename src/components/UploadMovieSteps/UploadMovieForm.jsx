@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Alert, Box, Button, Snackbar, Typography } from '@mui/material'
+import { Alert, Box, Snackbar, Typography } from '@mui/material'
 import { ControlledInput } from '../ControlledInput'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,12 +8,16 @@ import { ControlledSelect } from '../ControlledSelect'
 import { options } from '../../utils/optionsToSelect'
 import { uploadMovie } from '../../services/uploadMovie'
 import { updateMovie } from '../../services/updateMovie'
+import { ColorButton } from '../ColorButton'
 
 const movieSchema = yup.object({
   title: yup.string()
     .min(3, 'El título no debe tener menos de 3 caracteres')
     .max(50, 'El título no debe tener más de 50 caracteres')
     .required('El título es obligatorio'),
+  duration: yup.string()
+    .min(5, 'La duración solo puede contener 5 digitos')
+    .max(5, 'La duración solo puede contener 5 digitos'),
   director: yup.string()
     .matches(/^[a-zA-Z\s]*$/, 'El nombre del director no debe contener numeros')
     .min(3, 'El director no debe tener menos de 3 caracteres')
@@ -26,7 +30,7 @@ const movieSchema = yup.object({
   description: yup.string()
     .required('La descripción es obligatoria')
     .min(10, 'La descripción no debe tener menos de 10 caracteres')
-    .max(255, 'La descripción no debe tener más de 255 caracteres')
+    .max(200, 'La descripción no debe tener más de 200 caracteres')
 }).required()
 
 export const UploadMovieForm = (props) => {
@@ -39,6 +43,7 @@ export const UploadMovieForm = (props) => {
     resolver: yupResolver(movieSchema),
     defaultValues: {
       title: movie !== undefined ? movie.title : '',
+      duration: movie !== undefined ? movie.duration : '',
       director: movie !== undefined ? movie.director : '',
       trailerUrl: movie !== undefined ? movie.trailerUrl : '',
       gender: movie !== undefined ? movie.gender : '',
@@ -111,6 +116,13 @@ export const UploadMovieForm = (props) => {
       />
       <ControlledInput
         control={control}
+        label='Duración'
+        name='duration'
+        autoFocus
+        sx={{ mb: '1rem' }}
+      />
+      <ControlledInput
+        control={control}
         label='Director'
         name='director'
         autoFocus
@@ -139,7 +151,7 @@ export const UploadMovieForm = (props) => {
         rows={4}
         sx={{ mb: '1rem' }}
       />
-      <Button
+      <ColorButton
         variant='contained'
         size='large'
         type='submit'
@@ -147,7 +159,7 @@ export const UploadMovieForm = (props) => {
         sx={{ textTransform: 'initial', width: '100%', mb: '1rem', fontSize: '1rem' }}
       >
         {isLoading ? 'Guardando...' : 'Guardar'}
-      </Button>
+      </ColorButton>
       <Snackbar open={alert?.open} autoHideDuration={6000} onClose={handleCloseAlert}>
         <Alert
           onClose={handleCloseAlert}

@@ -1,6 +1,7 @@
-import { Box, Button, Container, Stack, Typography } from '@mui/material'
+import { Box, Container, Stack, Typography } from '@mui/material'
 import WanderingMind from './../../assets/img/wandering-mind.png'
 import { useNavigate } from 'react-router-dom'
+import { ColorButton } from '../ColorButton'
 
 export const FinalChoice = (props) => {
   const { handleReset } = props
@@ -29,7 +30,7 @@ export const FinalChoice = (props) => {
         sx={{ width: '50%', height: 'auto', mx: 'auto', display: 'block' }}
       />
       <Stack direction='row' spacing={2} sx={{ width: '50%', mx: 'auto', mt: '2rem' }}>
-        <Button
+        <ColorButton
           variant='contained'
           size='large'
           type='submit'
@@ -37,8 +38,8 @@ export const FinalChoice = (props) => {
           onClick={handleReset}
         >
           Cargar otra película
-        </Button>
-        <Button
+        </ColorButton>
+        <ColorButton
           variant='contained'
           size='large'
           type='submit'
@@ -46,7 +47,7 @@ export const FinalChoice = (props) => {
           onClick={handleGoToAvailableMovies}
         >
           Ver películas cargadas
-        </Button>
+        </ColorButton>
       </Stack>
 
     </Container>

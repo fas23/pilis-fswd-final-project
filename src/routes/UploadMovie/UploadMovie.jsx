@@ -1,9 +1,9 @@
 import { Box, Button, Step, StepLabel, Stepper } from '@mui/material'
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { UploadMovieForm } from '../../components/UploadMovieSteps/UploadMovieForm'
 import { UploadImage } from '../../components/UploadMovieSteps/UploadImage'
 import { FinalChoice } from '../../components/UploadMovieSteps/FinalChoice'
-import { useLocation } from 'react-router-dom'
 
 const stepsToUploadNewMovie = ['Sube la imagen', 'Carga su información', '¿Qué hacer a continuación?']
 const stepsToUpdateMovie = ['Sube la imagen a actualizar', 'Actualiza su información', '¿Qué hacer a continuación?']
@@ -12,7 +12,6 @@ export const UploadMovie = () => {
   const location = useLocation()
 
   const [activeStep, setActiveStep] = useState(0)
-  // const [imageId, setImageId] = useState(undefined)
   const [imageId, setImageId] = useState(location.state !== null ? location.state.movie.id : undefined)
 
   const handleNext = () => {

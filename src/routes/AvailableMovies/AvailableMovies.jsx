@@ -6,6 +6,7 @@ import { moviesWithoutCinemaShows } from '../../services/moviesWithoutCinemaShow
 import { ArrowsRightLeftIcon, PencilIcon, PlusIcon, SearchIcon, TrashIcon, TvIcon } from '../../components/Icons'
 import { movie } from '../../services/movie'
 import { deleteMovie } from '../../services/deleteMovie.'
+import { ColorButton } from '../../components/ColorButton'
 
 export const AvailableMovies = () => {
   const [movies, setMovies] = useState([])
@@ -187,7 +188,7 @@ export const AvailableMovies = () => {
             >
               No se encontraron películas disponibles a la búsqueda
             </Typography>
-            <Button
+            <ColorButton
               onClick={handleReset}
               variant='contained' size='large'
               sx={{
@@ -200,7 +201,7 @@ export const AvailableMovies = () => {
               }}
             >
               Obtener todas las películas
-            </Button>
+            </ColorButton>
           </Box>}
 
         {!isLoading && filteredMovies.map(movie => (
@@ -221,7 +222,7 @@ export const AvailableMovies = () => {
                   ? (
                     <Button
                       variant='text' startIcon={<TvIcon />}
-                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%', color: '#F9B208' }}
                       onClick={() => handleShowCinemaShows(movie)}
                     >
                       Ver funciones
@@ -230,7 +231,7 @@ export const AvailableMovies = () => {
                   : (
                     <Button
                       variant='text' startIcon={<PlusIcon />}
-                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                      sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%', color: '#F9B208' }}
                       onClick={() => handleAddNewCinemaShow(movie)}
                     >
                       Agregar función
@@ -238,14 +239,14 @@ export const AvailableMovies = () => {
                     )}
                 <Button
                   variant='text' startIcon={<PencilIcon />}
-                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%', color: '#F9B208' }}
                   onClick={() => handleEditMovie(movie)}
                 >
                   Editar
                 </Button>
                 <Button
                   variant='text' startIcon={<TrashIcon />}
-                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%' }}
+                  sx={{ textTransform: 'initial', fontSize: '1rem', width: '100%', color: 'red' }}
                   onClick={() => handleDeleteMovie(movie)}
                 >
                   Eliminar

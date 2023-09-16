@@ -1,8 +1,9 @@
 /* eslint-disable import/no-absolute-path */
-import { Box, Button, Container, LinearProgress, Paper, Stack, Typography } from '@mui/material'
+import { Box, Container, LinearProgress, Paper, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { uploadImage } from '../../services/uploadImage'
 import ImageUploader from '/src/assets/img/image.svg'
+import { ColorButton } from '../ColorButton'
 
 export const UploadImage = (props) => {
   const { handleNext, handleImage } = props
@@ -65,10 +66,10 @@ export const UploadImage = (props) => {
     <Container
       maxWidth='sm'
       sx={{
-        height: '70vh',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        my: '2rem'
       }}
     >
 
@@ -166,7 +167,7 @@ export const UploadImage = (props) => {
               >O
               </Typography>
 
-              <Button
+              <ColorButton
                 variant='contained'
                 component='label'
                 sx={{
@@ -185,7 +186,7 @@ export const UploadImage = (props) => {
                   hidden
                   onChange={(e) => handleChange(e)}
                 />
-              </Button>
+              </ColorButton>
 
             </Paper>
           </Box>
