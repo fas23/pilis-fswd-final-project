@@ -1,25 +1,29 @@
-import React, { useEffect, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { CartContext } from '../../context/CartContext'
-
 import Box from '@mui/joy/Box'
 import Button from '@mui/joy/Button'
 import Table from '@mui/joy/Table'
 import Typography from '@mui/joy/Typography'
 import Sheet from '@mui/joy/Sheet'
-import { payment } from '../../services/payment'
 import ConfirmationLogin from '../../components/modal/ConfirmationLogin'
 import { ColorButton } from '../../components/ColorButton'
+import { createOrder } from '../../services/createOrder'
+import { Alert, Snackbar } from '@mui/material'
 
 const Cart = () => {
+  const [alert, setAlert] = useState(null)
   const { cart, setCart } = useContext(CartContext)
-  const navigate = useNavigate()
 
   useEffect(() => {
     const localCart = JSON.parse(window.localStorage.getItem('addCart'))
-    console.log('en pagina de carrito', localCart)
+
     setCart(localCart !== null ? localCart : [])
   }, [])
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false })
+  }
 
   const totalPrices = cart ? cart.reduce((acc, item) => acc + item.total, 0) : undefined
   const handleDelete = (id) => {
@@ -33,21 +37,21 @@ const Cart = () => {
         cinemaShowId: item.cinemaShowId,
         title: item.name,
         unitPrice: item.price,
-        quantity: item.quantity
+        quantity: Number(item.quantity)
       }
     })
-    console.log('itemsCart', items)
-    payment(items)
+
+    createOrder(items)
       .then(data => {
-        console.log('payment', data)
-        window.localStorage.setItem('addCart', JSON.stringify([]))
-        window.localStorage.setItem('addTicket', JSON.stringify(cart))
-        console.log('esto se va enviar', cart)
-        /* setCart([]) */
-        /* console.log('como quedó cart',cart) */
-        navigate('/tickets')
+        window.open(data.data, '_blank')
       })
-      .catch((err) => console.log(err))
+      .catch(() => {
+        setAlert({
+          open: true,
+          type: 'error',
+          message: 'Ups, hubo un error, intente de nuevo.'
+        })
+      })
   }
 
   return (
@@ -178,15 +182,18 @@ const Cart = () => {
           <br />
           {cart.length !== 0 &&
             <ConfirmationLogin payment={handlePayment} />}
-          {/* // <Button
-          //   type='submit' size='md' variant='soft' color='neutral' aria-label='Explore Bahamas Islands'
-          //   sx={{ ml: 'auto', width: '200px', alignSelf: 'center', fontWeight: 600 }}
-          //   onClick={handlePayment}
-          //  >Pagar
-          //  </Button> */}
 
         </Sheet>
       </Box>
+      <Snackbar open={alert?.open}>
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alert?.type}
+          sx={{ width: '100%' }}
+        >
+          {alert?.message}
+        </Alert>
+      </Snackbar>
     </>
   )
 }
